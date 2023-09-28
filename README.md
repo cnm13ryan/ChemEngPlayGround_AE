@@ -4,6 +4,9 @@ Compilation of Chemical Engineering Simulation and Process Synthesis toolkit
 ## Description
 This project is centered around chemical engineering principles and focuses on simulation and process synthesis. It utilizes Pyomo, a Python-based, open-source optimization modeling language, along with other packages, to perform various chemical engineering tasks and analyses.
 
+Check out this link for Pyomo examples for Chemical engineering  [Pyomo Examples] (https://github.com/Pyomo/pyomo/tree/main/examples/dae).
+.
+
 ## Table of Contents
 1. [Installation](#installation)
 2. [Usage](#usage)
