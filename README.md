@@ -1,46 +1,61 @@
-# ⚔️ ZeldaWars
-A zelda-like Web 3 game made in Godot (Demo for EasyA x Immutable X Hackathon) 
+# Project Title
+Chemical Engineering Simulation and Process Synthesis
 
-# Play it !
-* https://cnm13ryan.github.io/ZeldaWars/main/Web/ZeldaWars.html
+## Description
+This project is centered around chemical engineering principles and focuses on simulation and process synthesis. It utilizes Pyomo, a Python-based, open-source optimization modeling language, along with other packages, to perform various chemical engineering tasks and analyses.
 
-# Current Features
+## Table of Contents
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Features](#features)
+4. [Contributing](#contributing)
+5. [License](#license)
+6. [Contact](#contact)
 
-* A RPG-Action game with multiple maps to explore.
+## Installation <a name="installation"></a>
+To install and run this project, follow the steps below:
+```sh
+# Clone the repository
+git clone https://github.com/username/repository.git
 
-* Player can swing their sword and shoot to kill monsters.
+# Navigate to the project directory
+cd repository
 
-* Can get keys and coins to unlock treasures.
+# Install the required packages
+pip install -r requirements.txt
+```
 
-# Future Development
+## Usage <a name="usage"></a>
+Provide instructions on how to use the project, including examples of code snippets and command-line instructions.
 
-Concept  - Zelda unlocks unprecedented rewards and NFTs for users who can select their preferred brands as part of the registration process. 
+```python
+# Example: Importing and using Pyomo
+from pyomo.environ import *
 
-The brands will represent the level of discount and equivalent mission success required to unlock these discounts. 
+# Create a simple model
+model = ConcreteModel()
+model.x = Var([1,2], domain=NonNegativeReals)
+model.OBJ = Objective(expr = 2*model.x[1] + 3*model.x[2])
+model.Constraint1 = Constraint(expr = 3*model.x[1] + 4*model.x[2] >= 1)
+```
 
-Once the discounts are unlocked the user has two choices 
+## Features <a name="features"></a>
+- **Simulation:** Utilizes Pyomo and other packages to simulate chemical processes.
+- **Process Synthesis:** Synthesizes processes to optimize the chemical engineering workflow.
+- **Optimization:** Implements various optimization algorithms to find the best solutions for chemical engineering problems.
 
-1. Purchase any item from the retailer the discount represents 
-2. Share the discount with family and gaming friends through a secure NFT code 
+## Contributing <a name="contributing"></a>
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-Win/win whether the user/gamer opts for option 1 or 2 they will accumulate NFTs if either they make a purchase with the brand discount unlocked or the discount unlocked is shared and subsequently used. 
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-If the gamer chooses option two which is to share the discount they will only accumulate NFTs and forfeit their discount but can continue to unlock new brand discounts as the game becomes more complex. 
+## License <a name="license"></a>
+Distributed under the MIT License. See `LICENSE` for more information.
 
-The challenge
-How can we make the game levels more complex to represent to enable the gamer to unlock new levels? 
-
-
-The game idea 
-The user moves through the maze/chess type board through preselected moves like chest against the AI based computer or pre-programmed chess type opponent.
-
-The Wallet Explained based on the option the gamer opts to exercise 
-
-OPT1
-Wallet 1 represents option one above - This represent both the discount and Brand + the NFT reward once the purchase has been made with the retailer
-
- OPT2 
-The gamer opts to share the discount which is forfeited/transfer but an NFT wallet in their favour is generated and the NFT is gained once the transferred discount is claimed. 
-
-Conclusion 
-Option 1 is where the gamer is able to earn/claim both discounts and NFT rewards whereas option two provides either the original gamer with an NFT (once discount transfer is used) or transferred discount
+## Contact <a name="contact"></a>
+- Your Name - [your-email@example.com](mailto:your-email@example.com)
+- Project Link: [https://github.com/username/repository](https://github.com/username/repository)
