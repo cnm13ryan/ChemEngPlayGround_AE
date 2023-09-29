@@ -1,0 +1,89 @@
+$title Level 2 mass balance for EB production
+
+* Level 2 mass balance model for EB production
+* to determine input and output stream compositions
+
+Sets comp Process components /E, P, Bz, Tu, EB, DEB/;
+
+Parameters
+PD  product stream flow  [kmol per h] /72/
+xTu  Single pass conversion of Tu  /1/
+t Residence time in Reactor [s] /200/
+yTu molar composition in feed 2 /0.05/
+yFE molar composition in feed 1 /1/
+yDEB DEB molar composition in byprod /0.97/
+yEB EB molar composition in prod /0.98/
+yPE E molar composition in recycle & purge /0/;
+
+Positive variables
+yPBz Bz molar composition in recycle & purge
+S selectivity of EB to DEB
+x Single pass conversion of EB to DEB
+F1 feed 1 flow (Pure E) [kmol per h]
+F2 feed 2 flow (Bz and Tu) [kmol per h]
+PG purge gas stream flow [kmol per h]
+BPD byproduct stream flow [kmol per h]
+xi1 first extent of reaction [kmol per h]
+xi2 second extent of reaction [kmol per h]
+xi3 third extent of reaction [kmol per h];
+
+
+Equations
+selectivitydependence
+conversiondependence
+selectivitydefinition
+conversiondefinition;
+
+* Selectivity and conversion relations as funcion of residence time
+selectivitydependence .. t * (S - 0.06379) =e= 371.60496;
+
+conversiondependence .. x + 0.66214 =e= 0.23303 * log(t);
+
+* definition of selectivity used
+selectivitydefinition .. S * xi2 =e= xi1 - xi2 + xi3;
+
+conversiondefinition .. x * F2 * (1 - yTu) =e= xi1;
+
+Equations
+balanceTu
+balanceBz
+balanceDEB
+balanceE
+balanceP
+balanceEB
+;
+
+*  mass balances all of the form:
+*  input + generation = output + consumption
+
+* Assume 100% overall conversion so all toluene is consumed
+balanceTu .. F2 * yTu  =e= xi3;
+
+* benzene consumed in first reaction
+balanceBz .. F2 * (1 - yTu) - xi1 =e= yPBz * PG;
+
+* Ethylene fed and consumed in first, second and third reaction
+balanceE .. F1 * yFE - xi1 - xi2 - 2*xi3 =e= yPE * PG;
+
+* Propane generated in the third reaction
+balanceP .. xi3 =e= (1- yPE - yPBz) * PG;
+
+* DEB produced in second reaction
+balanceDEB .. xi2 =e= yDEB * BPD ;
+
+*EB consumed in second reaction, produced in first and third reaction
+balanceEB .. xi1 - xi2 + xi3 =e= yEB * PD ;
+
+
+* This is very important
+* initialise at least one flow to help GAMS start
+F1.l = 40;
+F2.l = 40;
+xi1.l = 40;
+xi2.l = 3;
+xi3.l = 3;
+BPD.l = 3;
+PG.l = 3;
+
+model level2 /all/;
+solve level2 using cns;

@@ -1,0 +1,112 @@
+$title Level 2 mass balance for EB production
+$ontext
+Level 2 mass balance model for EB production
+to determine input and output stream compositions
+$offtext
+
+Sets comp Process components /E, P, Bz, Tu, EB, DEB/;
+
+parameters
+         PD  product stream flow  [kmol per h] /72/
+         xTu  Single pass conversion of Tu  /1/
+         t Residence time in Reactor [s] /70/
+         yTu molar composition in feed 2 /0.05/
+         yFE molar composition in feed 1 /1/
+         yDEB DEB molar composition in byprod /0.97/
+         yEB EB molar composition in prod /0.98/
+*         yPBz Bz molar composition in recycle & purge /0.0/
+         yPE E molar composition in recycle & purge /0/;
+
+positive variables
+*yPP P molar composition in recycle & purge
+yPBz Bz molar composition in recycle & purge
+         S selectivity of EB to DEB
+         x Single pass conversion of EB to DEB
+         F1 feed 1 flow (Pure E) [kmol per h]
+         F2 feed 2 flow (Bz and Tu) [kmol per h]
+         PG purge gas stream flow [kmol per h]
+         BPD byproduct stream flow [kmol per h]
+         xi1 first extent of reaction [kmol per h]
+         xi2 second extent of reaction [kmol per h]
+         xi3 third extent of reaction [kmol per h];
+
+equations
+    selectivitydependence
+    conversiondependence
+    selectivitydefinition
+conversiondefinition
+;
+
+* Selectivity and conversion relations as funcion of residence time
+selectivitydependence .. t * (S - 0.06397) =e= 371.6;
+conversiondependence .. x + 0.6624 =e= 0.23303 * log(t);
+
+* definition of selectivity used
+selectivitydefinition .. S * xi2 =e= xi1 - xi2 + xi3;
+conversiondefinition .. x * (F2 + F1)  =e=  (yPE + yPBz) * PG;
+
+
+
+equations
+    balanceTu
+    balanceBz
+    balanceDEB
+    balanceE
+    balanceP
+    balanceEB
+;
+* ------------------------------ mass balances
+* all of the form:
+*   input + generation = output + consumption
+
+* Assume 100% overall conversion so all toluene is consumed
+balanceTu .. F2 * yTu  =e= xi3;
+
+* benzene consumed in first reaction
+balanceBz .. F2 * (1 - yTu) - xi1 =e= yPBz * PG;
+
+* Ethylene fed and consumed in first, second and third reaction
+balanceE .. F1 * yFE - xi1 - xi2 - 2*xi3 =e= yPE * PG;
+
+* Propane generated in the third reaction
+balanceP .. xi3 =e= (1 - yPE - yPBz) * PG;
+
+* DEB produced in second reaction
+balanceDEB .. xi2 =e= yDEB * BPD + (1-yEB) * PD ;
+
+*EB consumed in second reaction, produced in first and third reaction
+balanceEB .. xi1 - xi2 + xi3 =e= yEB * PD + (1-yDEB) * BPD;
+
+positive variables
+         F feed amount [kmol per h]
+         z(comp) Feed molar composition;
+
+equation matbal;
+matbal .. F =e= PG + PD + BPD;
+
+equations Ecomp, Pcomp, Bzcomp, EBcomp, DEBcomp, Tucomp;
+Ecomp .. F * z('E') =e=  yPE * PG;
+Pcomp .. F * z('P') =e= (1 - yPE - yPBz) * PG;
+Bzcomp .. F * z('Bz') =e= yPBz * PG;
+EBcomp .. F * z('EB') =e= yEB * PD + (1-yDEB) * BPD;
+DEBcomp .. F * z('DEB') =e= yDEB * BPD + (1-yEB) * PD ;
+Tucomp .. z('Tu') =e= 0;
+
+* initialise at least one flow to help GAMS start
+F2.l = PD;
+F1.l = PD;
+xi1.l = 0.2;
+xi2.l = 0.2;
+xi3.l = 0.2;
+BPD.l = 0.2;
+PG.l = 0.2;
+
+model hdalevel2 /all/;
+solve hdalevel2 using cns;
+
+*file Q4_DCRel3 /""N:\GAMS\projdir\CENG0013_project\Q4_DCRel3.put"/;
+*Q4_DCRel3.nd = 4;
+
+*put F2.l F1.l
+
+
