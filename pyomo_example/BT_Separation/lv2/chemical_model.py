@@ -24,7 +24,6 @@ class ChemicalModel:
         solver.solve(self.model, tee=True)
 
     def display_results(self):
-
         # Helper function to fetch the value
         def fetch_value(var):
             val = var.value
@@ -82,8 +81,17 @@ class ChemicalModel:
             ]
             display_and_write(file, "\nb Composition Results:", b_results)
 
-            # Print to console that results are written to the file
-            print(f"\nResults have been written to {filename}")
+            # Generate the stream table
+            stream_table_df = self.generate_stream_table()
+            stream_table_str = stream_table_df.to_string()
+
+            # Write the stream table to the file
+            file.write("\nStream Table:\n")
+            file.write(stream_table_str)
+            file.write("\n")
+
+        # Print to console that results are written to the file
+        print(f"\nResults have been written to {filename}")
 
 
     def generate_stream_table(self):
