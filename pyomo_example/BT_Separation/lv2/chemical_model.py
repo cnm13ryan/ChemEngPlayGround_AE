@@ -2,6 +2,7 @@ from pyomo.environ import ConcreteModel, SolverFactory
 from parameters import Parameters
 from variables import Variables
 from constraints import Constraints
+import pandas as pd
 
 class ChemicalModel:
     def __init__(self):
@@ -124,4 +125,3 @@ class ChemicalModel:
         print(df)
 
         return df
-
