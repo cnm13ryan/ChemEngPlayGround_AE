@@ -11,7 +11,7 @@ class Parameters:
             'z1_MetaXylene': 0.0244,
             'z1_Ethylbenzene': 0.0,
             'z1_ParaXylene': 0.0001,
-            'z1_TwoMethylbenzene': 0.0001,
+            'z1_TwoMethylbutane': 0.0001,
             
             # Fractional recoveries of HK/LK
             'FR_S2_LK': 0.98,

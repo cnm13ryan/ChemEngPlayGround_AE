@@ -6,7 +6,7 @@ from constraints import Constraints
 class ChemicalModel:
     def __init__(self):
         self.model = ConcreteModel()
-        self.components = ['Benzene', 'Toluene', 'OrthoXylene', 'MetaXylene', 'Ethylbenzene', 'ParaXylene', 'TwoMethylbenzene']
+        self.components = ['Benzene', 'Toluene', 'OrthoXylene', 'MetaXylene', 'Ethylbenzene', 'ParaXylene', 'TwoMethylbutane']
         self.parameters = Parameters()
         
         # Set params as an attribute of model
@@ -61,7 +61,7 @@ class ChemicalModel:
             display_and_write(file, "\nStream S Results:", s_results)
 
             # d Composition Results
-            components = ['Benzene', 'Toluene', 'OrthoXylene', 'MetaXylene', 'Ethylbenzene', 'ParaXylene', 'TwoMethylbenzene']
+            components = ['Benzene', 'Toluene', 'OrthoXylene', 'MetaXylene', 'Ethylbenzene', 'ParaXylene', 'TwoMethylbutane']
             d_results = [
                 f"d1[{component}]: {fetch_value(model.d1[component])}" for component in components
             ] + [
@@ -83,3 +83,45 @@ class ChemicalModel:
 
             # Print to console that results are written to the file
             print(f"\nResults have been written to {filename}")
+
+
+    def generate_stream_table(self):
+        """Generate a table with molar flow rates of each component in each stream."""
+
+        def fetch_value(var):
+            val = var.value
+            if val is None or val < 0:
+                return 0.0
+            return round(val, 4)  # Rounding to 4 decimal digits
+
+        components = self.components
+        data = []  # This will store rows of data which will be used to create DataFrame
+
+        # For S1 (since it's defined in parameters)
+        s1_flow = self.model.params['S1']
+        s1_compositions = [self.model.params[f'z1_{component}'] for component in components]
+        s1_molar_flow_rates = [s1_flow * comp for comp in s1_compositions]
+        data.append(s1_molar_flow_rates)
+
+        # For other S streams
+        for i in range(2, 8):  # Start from S2 since we've already handled S1
+            stream_name = "S" + str(i)
+            s_flow = fetch_value(getattr(self.model, stream_name))
+
+            if i % 2 == 0:  # Even numbered S streams
+                stream_name = "d" + str(i//2)
+                compositions = [fetch_value(getattr(self.model, stream_name)[component]) for component in components]
+            else:  # Odd numbered S streams
+                stream_name = "b" + str(i//2)
+                compositions = [fetch_value(getattr(self.model, stream_name)[component]) for component in components]
+
+            molar_flow_rates = [s_flow * comp for comp in compositions]
+            data.append(molar_flow_rates)
+
+        # Creating DataFrame
+        stream_names = [f'S{i}' for i in range(1, 8)]
+        df = pd.DataFrame(data, columns=components, index=stream_names)
+        print(df)
+
+        return df
+
