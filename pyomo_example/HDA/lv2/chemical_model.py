@@ -103,9 +103,6 @@ class ChemicalModel:
 
 
 
-
-
-        
     def set_objective(self):
         """Define the objective function for the model."""
         self.model.objective = Objective(expr=self.model.s13['Hydrogen'], sense=maximize)
