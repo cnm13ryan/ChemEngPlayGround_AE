@@ -51,7 +51,8 @@ class Constraints:
             'Eq8': self.Eq8,
             'Eq9': self.Eq9,
             'Eq10': self.Eq10,  
-            'Eq11': self.Eq11
+            'Eq11': self.Eq11,
+            'Eq12': self.Eq12
         }
 
         components = ['Benzene', 'Toluene', 'OrthoXylene', 'MetaXylene', 'Ethylbenzene', 'ParaXylene', 'TwoMethylbutane']
