@@ -1,4 +1,4 @@
-from pyomo.environ import ConcreteModel, SolverFactory
+from pyomo.environ import ConcreteModel, SolverFactory, Objective, maximize, Constraint, Var
 from parameters import Parameters
 from variables import Variables
 from constraints import Constraints
@@ -17,7 +17,19 @@ class ChemicalModel:
         self.variables = Variables(self.model, self.components, self.model.params)
         self.constraints = Constraints(self.model, self.model.params)
         
-        
+    def count_equations_and_unknowns(self):
+        """
+        Count the number of active constraints (equations) and variables (unknowns) in the model.
+        """
+        # Count active constraints
+        num_constraints = sum(1 for c in self.model.component_objects(ctype=Constraint, active=True)
+                              for _ in c)
+
+        # Count active variables
+        num_variables = sum(1 for v in self.model.component_objects(ctype=Var, active=True)
+                            for _ in v)
+
+        return num_constraints, num_variables        
         
     def solve(self):
         solver = SolverFactory('glpk')
