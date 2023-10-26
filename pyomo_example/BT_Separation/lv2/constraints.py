@@ -209,7 +209,7 @@ class Constraints:
 
     # TwoMethylbutane (Individual Component material balance)
     def TwoMethylbutane_comp_rule1(self, model):
-        return model.params['S1'] * model.params['S1_TwoMethylbutane'] == model.s2['TwoMethylbutane']
+        return model.s2['TwoMethylbutane'] == 0
     
     def TwoMethylbutane_comp_rule1(self, model):
         return model.s3['TwoMethylbutane'] == 0

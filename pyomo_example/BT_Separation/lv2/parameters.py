@@ -19,6 +19,6 @@ class Parameters:
             'FR_S4_LK': 0.98,
             'FR_S5_HK': 0.95,
             'FR_S6_LK': 0.98,
-            'FR_S7_HK': 0.95,
+            'FR_S7_HK': 0.95
             
         }
