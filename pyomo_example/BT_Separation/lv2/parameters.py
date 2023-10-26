@@ -5,13 +5,13 @@ class Parameters:
             'S1': 4542.305, # to the power of 10**6 [kmol / hr]
             
             # Molar composition of Stream 1 (Feed inlet)
-            'z1_Benzene': 0.2540,
-            'z1_Toluene': 0.5840,
-            'z1_OrthoXylene': 0.1374,
-            'z1_MetaXylene': 0.0244,
-            'z1_Ethylbenzene': 0.0,
-            'z1_ParaXylene': 0.0001,
-            'z1_TwoMethylbutane': 0.0,
+            'S1_Benzene': 0.2540,
+            'S1_Toluene': 0.5840,
+            'S1_OrthoXylene': 0.1374,
+            'S1_MetaXylene': 0.0244,
+            'S1_Ethylbenzene': 0.0,
+            'S1_ParaXylene': 0.0001,
+            'S1_TwoMethylbutane': 0.0,
             
             # Fractional recoveries of HK/LK
             'FR_S2_LK': 0.98,
