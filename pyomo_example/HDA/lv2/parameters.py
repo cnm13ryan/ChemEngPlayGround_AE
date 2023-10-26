@@ -34,9 +34,9 @@ class Parameters:
             
             # Purge Composition (Hydrogen + Benzene)
             'yPH': 0.2,
-            'yPB': 0.0001,
+            'yPB': 0.001,
             
             # Conversion: 
-            'X': 0.6
+            'X': 0.7
             
         }

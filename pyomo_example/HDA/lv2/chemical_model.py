@@ -44,7 +44,7 @@ class ChemicalModel:
         }
 
         # Define a tolerance for the difference between successive values
-        tolerance = 1e-5
+        tolerance = 1e-4
 
         # Maximum number of iterations
         max_iterations = 100

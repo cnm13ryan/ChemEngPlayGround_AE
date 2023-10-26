@@ -17,7 +17,6 @@ class Constraints:
             model.del_component(model.streams)
         model.streams = RangeSet(10, 18)
         
-        # Physical condition (composition within a stream should add up to 1)
         model.composition_sum_constraint = Constraint(model.streams, rule=self.composition_sum_rule)
         
         
@@ -39,7 +38,10 @@ class Constraints:
             'Eq10': self.Eq10,
             'Eq11': self.Eq11,
             'Eq12': self.Eq12,
-            'selectivity_def_constraint': self.selectivity_def_rule
+            'selectivity_def_constraint': self.selectivity_def_rule,
+            'selectivity_relation': self.selectivity_relation,
+            'conversion_def_rule': self.conversion_def_rule
+            
         }
 
         for component in self.components:
@@ -109,12 +111,13 @@ class Constraints:
     def selectivity_def_rule(self, model):
         return model.S * (1 - model.params['X'])**(1.544) == (1 - model.params['X'])**(1.544) - 0.0036 
     
-    def consumption_of_Toluene(self, model):
-        return C + model.s10['Toluene'] == model.params['S9'] * model.params['S9_Toluene'] + model.params['S8'] * model.params['S8_Toluene'] + model.s13['Toluene'] + model.s17['Toluene']
-    
     # Selectivity relation
     def selectivity_relation(self, model):
-        return model.C * model.S == model.s10['Benzene']
+        return model.zeta_1 * model.S == model.s10['Benzene']
+    
+    # Conversion Definition
+    def conversion_def_rule(self, model):
+        return model.params['X'] * (model.params['S9'] * model.params['S9_Benzene'] + model.params['S8'] * model.params['S8_Benzene'] + model.s13['Benzene'] + model.s17['Benzene']) ==  model.zeta_1 - 2 * model.zeta_2 
     
     # Hydrogen (Individual Component material balance)
     def Hydrogen_comp_rule1(self, model):
@@ -144,8 +147,8 @@ class Constraints:
     def Hydrogen_comp_rule9(self, model):
         return model.s18['Hydrogen'] == 0 
     
-#     def Hydrogen_comp_rule10(self, model):
-#         return model.s13['Hydrogen'] == 5 * model.s14['Hydrogen']    
+    def Hydrogen_comp_rule10(self, model):
+        return model.s13['Hydrogen'] == 5 * model.s14['Hydrogen']    
     
     # Methane (Individual Component material balance)
     def Methane_comp_rule1(self, model):
@@ -172,8 +175,8 @@ class Constraints:
     def Methane_comp_rule8(self, model):
         return model.s18['Methane'] == 0  
     
-#     def Methane_comp_rule9(self, model):
-#         return model.s13['Methane'] == 5 * model.s14['Methane']   
+    def Methane_comp_rule9(self, model):
+        return model.s13['Methane'] == 5 * model.s14['Methane']   
     
     
     
@@ -199,9 +202,8 @@ class Constraints:
     def Benzene_comp_rule7(self, model):
         return model.s18['Methane'] == 0  
     
-#     def Benzene_comp_rule8(self, model):
-#         return model.s13['Benzene'] == 5 * model.s14['Benzene']
-    
+    def Benzene_comp_rule8(self, model):
+        return model.s13['Benzene'] == 5 * model.s14['Benzene']
     
     
     # Toluene (Individual Component material balance)
