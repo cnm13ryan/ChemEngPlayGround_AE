@@ -20,9 +20,9 @@ class ChemicalModel:
         
         
     def solve(self):
-        solver = SolverFactory('ipopt')
-        solver.options['constr_viol_tol'] = 1e-8
-        solver.options['acceptable_constr_viol_tol'] = 1e-8
+        solver = SolverFactory('glpk')
+#         solver.options['constr_viol_tol'] = 1e-8
+#         solver.options['acceptable_constr_viol_tol'] = 1e-8
 
         solver.solve(self.model, tee=True)
 

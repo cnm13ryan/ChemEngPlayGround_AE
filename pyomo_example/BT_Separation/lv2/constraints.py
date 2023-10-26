@@ -188,8 +188,6 @@ class Constraints:
     def MetaXylene_comp_rule6(self, model):
         return model.s6['MetaXylene'] == 0
 
-
-    
     # ParaXylene (Individual Component material balance)
     def ParaXylene_comp_rule1(self, model):
         return model.params['S1'] * model.params['S1_ParaXylene'] == model.s3['ParaXylene']
