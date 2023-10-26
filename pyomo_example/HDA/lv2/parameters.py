@@ -3,10 +3,10 @@ class Parameters:
         self.params = {
             
             # Molar flow rate of Stream 8 (Hydrogen Feed inlet)
-            'S8': 12714.60, # to the power of 10**6 [kmol / hr]
+            'S8': 2543.1684 * 5, # to the power of 10**6 [kmol / hr] (5:1 ratio of H2 to Toluene)
             
-            # Molar flow rate of Stream 9 (Toluene Feed inlet)
-            'S9': 2542.92, # to the power of 10**6 [kmol / hr]
+            # Molar flow rate of Stream 9 (combined flow rate of Stream 4 and Stream 6) (Toluene Feed inlet)
+            'S9': 2543.1684, # to the power of 10**6 [kmol / hr]
             
             # Molar Composition of Stream 8 (Pure Hydrogen)
             'S8_Hydrogen': 1,
@@ -19,9 +19,9 @@ class Parameters:
             # Molar composition of Stream 9 (Combined Feed inlet of Stream 4 and 6)
             'S9_Hydrogen': 0.0,
             'S9_Methane': 0.0,
-            'S9_Benzene': 0.90/100,
-            'S9_Toluene': 0.991 ,
-            'S9_ParaXylene': 0.0,
+            'S9_Benzene': 0.91/100,
+            'S9_Toluene': 99.09/100 ,
+            'S9_ParaXylene': 0.0, # Trace (Ignore this)
             'S9_Diphenyl': 0.0,
             
             # Fractional recoveries of HK/LK
@@ -30,13 +30,6 @@ class Parameters:
             'FR_S15_LK': 0.98,
             'FR_S16_HK': 0.95,
             'FR_S17_LK': 0.98,
-            'FR_S18_HK': 0.95,
-            
-            # Purge Composition (Hydrogen + Benzene)
-            'yPH': 0.2,
-            'yPB': 0.001,
-            
-            # Conversion: 
-            'X': 0.7
+            'FR_S18_HK': 0.95
             
         }

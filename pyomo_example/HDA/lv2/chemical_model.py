@@ -1,35 +1,99 @@
-from pyomo.environ import ConcreteModel, SolverFactory
+from pyomo.environ import ConcreteModel, SolverFactory, Objective, maximize, Constraint, Var, Suffix
 from parameters import Parameters
 from variables import Variables
 from constraints import Constraints
 import pandas as pd
-from pyomo.environ import Objective, maximize
+from pyomo.opt import TerminationCondition
+
 
 class ChemicalModel:
-    
     def __init__(self):
+        # Initialize the model
         self.model = ConcreteModel()
+
+        # Define the components
         self.components = ['Hydrogen', 'Methane', 'Benzene', 'Toluene', 'ParaXylene', 'Diphenyl']
+
+        # Initialize parameters
         self.parameters = Parameters()
-        
-        
-        # Set params as an attribute of model
-        self.model.params = self.parameters.params
-        
+        self.model.params = self.parameters.params  # Set params as an attribute of model
+
+        # Initialize variables and constraints
         self.variables = Variables(self.model, self.components, self.model.params)
         self.constraints = Constraints(self.model, self.model.params)
-        
+
         # Set up the objective function
         self.set_objective()
-        
-        # Initialize tearing variables for s13 and s17
-        self.tearing_streams = ['s13', 's17', 'S13', 'S17']
+
+        # Initialize tearing variables for S13 and S17
+        self.initialize_tearing_variables()
+
+    def set_objective(self):
+        # Define the objective function here
+        pass
+
+    def initialize_tearing_variables(self):
+        """Initialize tearing variables for streams S13 and S17."""
+        self.tearing_streams = ['S13', 'S17']
         self.tearing_values = {
-            's13': {component: 0.00001 for component in self.components},
-            's17': {component: 0.00001 for component in self.components},
             'S13': 1000,
             'S17': 200
         }
+
+        
+    def count_equations_and_unknowns(self):
+        """
+        Count the number of active constraints (equations) and variables (unknowns) in the model.
+        """
+        # Count active constraints
+        num_constraints = sum(1 for c in self.model.component_objects(ctype=Constraint, active=True)
+                              for _ in c)
+
+        # Count active variables
+        num_variables = sum(1 for v in self.model.component_objects(ctype=Var, active=True)
+                            for _ in v)
+
+        return num_constraints, num_variables
+    
+    
+    def identify_redundant_constraints_sensitivity(self):
+        """Identify potential redundant constraints using sensitivity analysis."""
+        self.model.dual = Suffix(direction=Suffix.IMPORT)
+        solver = SolverFactory('ipopt')
+        result = solver.solve(self.model, tee=True)
+
+        # Check if the solver was successful
+        if result.solver.termination_condition != TerminationCondition.optimal:
+            print("Solver did not converge. Cannot perform sensitivity analysis.")
+            return
+
+        redundant_constraints = []
+        for c in self.model.component_objects(ctype=Constraint, active=True):
+            for index in c:
+                if abs(self.model.dual[c[index]]) < 1e-6:  # Small threshold
+                    redundant_constraints.append(c[index])
+
+        print("Potential redundant constraints based on sensitivity analysis:")
+        for rc in redundant_constraints:
+            print(rc)
+
+    def identify_redundant_constraints_deactivation(self):
+        """Identify potential redundant constraints by deactivating them one by one."""
+        solver = SolverFactory('ipopt')
+        original_objective_value = self.model.objective.expr()
+
+        redundant_constraints = []
+        for c in self.model.component_objects(ctype=Constraint, active=True):
+            for index in c:
+                c[index].deactivate()
+                solver.solve(self.model)
+                if abs(original_objective_value - self.model.objective.expr()) < 1e-6:  # Small threshold
+                    redundant_constraints.append(c[index])
+                c[index].activate()
+
+        print("Potential redundant constraints based on deactivation method:")
+        for rc in redundant_constraints:
+            print(rc)
 
         
     def solve_with_tearing(self):
@@ -37,10 +101,10 @@ class ChemicalModel:
         self.solve()
 
         # Define the tearing streams and initialize their values
-        self.tearing_streams = ['s13', 's17']
+        self.tearing_streams = ['S13', 'S17']
         self.tearing_values = {
-            's13': {component: 500 for component in self.components},
-            's17': {component: 50 for component in self.components}
+            'S13': 500,
+            'S17': 50
         }
 
         # Define a tolerance for the difference between successive values
@@ -59,21 +123,19 @@ class ChemicalModel:
         while current_iteration < max_iterations:
             # Store the old values of the tearing streams
             old_values = {
-                stream: {component: self.tearing_values[stream][component] for component in self.components}
+                stream: self.tearing_values[stream]
                 for stream in self.tearing_streams
             }
 
             # Update the tearing_values dictionary with the current values from the model
             for stream in self.tearing_streams:
-                for component in self.components:
-                    current_value = self.fetch_value(getattr(self.model, stream)[component])
-                    self.tearing_values[stream][component] = current_value
+                current_value = self.fetch_value(getattr(self.model, stream))  # Fetch overall molar flow rate
+                self.tearing_values[stream] = current_value
 
             # Calculate the error for the current iteration
             error = sum(
-                abs(self.tearing_values[stream][component] - old_values[stream][component])
+                abs(self.tearing_values[stream] - old_values[stream])
                 for stream in self.tearing_streams
-                for component in self.components
             )
             errors.append(error)
 
@@ -85,8 +147,7 @@ class ChemicalModel:
 
             # If not converged, update the model with the new tearing values and solve again
             for stream in self.tearing_streams:
-                for component in self.components:
-                    getattr(self.model, stream)[component].set_value(self.tearing_values[stream][component])
+                getattr(self.model, stream).set_value(self.tearing_values[stream])  # Set overall molar flow rate
 
             self.solve()
 
@@ -103,10 +164,16 @@ class ChemicalModel:
 
 
 
+
     def set_objective(self):
         """Define the objective function for the model."""
+        # Remove the previous objective if it exists
+        if hasattr(self.model, 'objective'):
+            self.model.del_component(self.model.objective)
+        
+        # Define a new objective function (choose one or handle multiple objectives appropriately)
         self.model.objective = Objective(expr=self.model.s13['Hydrogen'], sense=maximize)
-        self.model.objective = Objective(expr=self.model.s15['Benzene'], sense=maximize)
+
         
     def solve(self):
         solver = SolverFactory('ipopt')
