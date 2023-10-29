@@ -1,0 +1,120 @@
+Results:
+
+Stream S Results:
+S20: 38.3
+S21: 7.66
+S22: 5
+S23: 5
+S24: 5
+S25: 5
+S26: 5
+S27: 5
+S28: 5
+S29: 5
+S30: 5
+S31: 5
+S32: 5
+S33: 5
+
+Component Flow Rate Results:
+Molar Flow rate of[Cyclohexylbenzene] in S20: 0.0
+Molar Flow rate of[Cyclohexylbenzene] in S21: 0.0
+Molar Flow rate of[Cyclohexene] in S20: 0.0
+Molar Flow rate of[Cyclohexene] in S21: 0.0
+Molar Flow rate of[Cyclohexane] in S20: 0.0
+Molar Flow rate of[Cyclohexane] in S21: 0.0
+Molar Flow rate of[Benzene] in S20: 38.2617
+Molar Flow rate of[Benzene] in S21: 0.0
+Molar Flow rate of[Methane] in S20: 0.0383
+Molar Flow rate of[Methane] in S21: 0.0
+Molar Flow rate of[Hydrogen] in S20: 0.0
+Molar Flow rate of[Hydrogen] in S21: 7.66
+Molar Flow rate of[Hydrogen] in S22: 5
+Molar Flow rate of[Methane] in S22: 5
+Molar Flow rate of[Benzene] in S22: 5
+Molar Flow rate of[Cyclohexane] in S22: 5
+Molar Flow rate of[Cyclohexene] in S22: 5
+Molar Flow rate of[Cyclohexylbenzene] in S22: 5
+Molar Flow rate of[Hydrogen] in S23: 5
+Molar Flow rate of[Methane] in S23: 5
+Molar Flow rate of[Benzene] in S23: 5
+Molar Flow rate of[Cyclohexane] in S23: 5
+Molar Flow rate of[Cyclohexene] in S23: 5
+Molar Flow rate of[Cyclohexylbenzene] in S23: 5
+Molar Flow rate of[Hydrogen] in S24: 5
+Molar Flow rate of[Methane] in S24: 5
+Molar Flow rate of[Benzene] in S24: 5
+Molar Flow rate of[Cyclohexane] in S24: 5
+Molar Flow rate of[Cyclohexene] in S24: 5
+Molar Flow rate of[Cyclohexylbenzene] in S24: 5
+Molar Flow rate of[Hydrogen] in S25: 5
+Molar Flow rate of[Methane] in S25: 5
+Molar Flow rate of[Benzene] in S25: 5
+Molar Flow rate of[Cyclohexane] in S25: 5
+Molar Flow rate of[Cyclohexene] in S25: 5
+Molar Flow rate of[Cyclohexylbenzene] in S25: 5
+Molar Flow rate of[Hydrogen] in S26: 5
+Molar Flow rate of[Methane] in S26: 5
+Molar Flow rate of[Benzene] in S26: 5
+Molar Flow rate of[Cyclohexane] in S26: 5
+Molar Flow rate of[Cyclohexene] in S26: 5
+Molar Flow rate of[Cyclohexylbenzene] in S26: 5
+Molar Flow rate of[Hydrogen] in S27: 5
+Molar Flow rate of[Methane] in S27: 5
+Molar Flow rate of[Benzene] in S27: 5
+Molar Flow rate of[Cyclohexane] in S27: 5
+Molar Flow rate of[Cyclohexene] in S27: 5
+Molar Flow rate of[Cyclohexylbenzene] in S27: 5
+Molar Flow rate of[Hydrogen] in S28: 5
+Molar Flow rate of[Methane] in S28: 5
+Molar Flow rate of[Benzene] in S28: 5
+Molar Flow rate of[Cyclohexane] in S28: 5
+Molar Flow rate of[Cyclohexene] in S28: 5
+Molar Flow rate of[Cyclohexylbenzene] in S28: 5
+Molar Flow rate of[Hydrogen] in S29: 5
+Molar Flow rate of[Methane] in S29: 5
+Molar Flow rate of[Benzene] in S29: 5
+Molar Flow rate of[Cyclohexane] in S29: 5
+Molar Flow rate of[Cyclohexene] in S29: 5
+Molar Flow rate of[Cyclohexylbenzene] in S29: 5
+Molar Flow rate of[Hydrogen] in S30: 5
+Molar Flow rate of[Methane] in S30: 5
+Molar Flow rate of[Benzene] in S30: 5
+Molar Flow rate of[Cyclohexane] in S30: 5
+Molar Flow rate of[Cyclohexene] in S30: 5
+Molar Flow rate of[Cyclohexylbenzene] in S30: 5
+Molar Flow rate of[Hydrogen] in S31: 5
+Molar Flow rate of[Methane] in S31: 5
+Molar Flow rate of[Benzene] in S31: 5
+Molar Flow rate of[Cyclohexane] in S31: 5
+Molar Flow rate of[Cyclohexene] in S31: 5
+Molar Flow rate of[Cyclohexylbenzene] in S31: 5
+Molar Flow rate of[Hydrogen] in S32: 5
+Molar Flow rate of[Methane] in S32: 5
+Molar Flow rate of[Benzene] in S32: 5
+Molar Flow rate of[Cyclohexane] in S32: 5
+Molar Flow rate of[Cyclohexene] in S32: 5
+Molar Flow rate of[Cyclohexylbenzene] in S32: 5
+Molar Flow rate of[Hydrogen] in S33: 5
+Molar Flow rate of[Methane] in S33: 5
+Molar Flow rate of[Benzene] in S33: 5
+Molar Flow rate of[Cyclohexane] in S33: 5
+Molar Flow rate of[Cyclohexene] in S33: 5
+Molar Flow rate of[Cyclohexylbenzene] in S33: 5
+
+Stream Table:
+     Hydrogen  Methane  Benzene  Cyclohexane  Cyclohexene  Cyclohexylbenzene
+s20      0.00   0.0383  38.2617          0.0          0.0                0.0
+s21      7.66   0.0000   0.0000          0.0          0.0                0.0
+s22      5.00   5.0000   5.0000          5.0          5.0                5.0
+s23      5.00   5.0000   5.0000          5.0          5.0                5.0
+s24      5.00   5.0000   5.0000          5.0          5.0                5.0
+s25      5.00   5.0000   5.0000          5.0          5.0                5.0
+s26      5.00   5.0000   5.0000          5.0          5.0                5.0
+s27      5.00   5.0000   5.0000          5.0          5.0                5.0
+s28      5.00   5.0000   5.0000          5.0          5.0                5.0
+s29      5.00   5.0000   5.0000          5.0          5.0                5.0
+s30      5.00   5.0000   5.0000          5.0          5.0                5.0
+s31      5.00   5.0000   5.0000          5.0          5.0                5.0
+s32      5.00   5.0000   5.0000          5.0          5.0                5.0
+s33      5.00   5.0000   5.0000          5.0          5.0                5.0

@@ -1,9 +1,9 @@
-from pyomo.environ import ConcreteModel, SolverFactory
+from pyomo.environ import ConcreteModel, SolverFactory, Objective, maximize, Constraint, Var, Suffix
 from parameters import Parameters
 from variables import Variables
 from constraints import Constraints
 import pandas as pd
-from pyomo.environ import Objective, maximize
+from pyomo.opt import TerminationCondition
 
 class ChemicalModel:
     
@@ -28,10 +28,53 @@ class ChemicalModel:
             's13': {component: 0.00001 for component in self.components},
             's17': {component: 0.00001 for component in self.components},
             'S13': 1000,
-            'S17': 200
+            'S17': 300
         }
-
         
+    def find_optimal_initial_values(self, s13_range, s17_range):
+        min_error = float('inf')  # Initialize with a large value
+        optimal_initial_values = {'s13': None, 's17': None}
+
+        for s13_init in s13_range:
+            for s17_init in s17_range:
+                # Set initial values
+                for component in self.components:
+                    self.model.s13[component].set_value(s13_init)
+                    self.model.s17[component].set_value(s17_init)
+
+                # Solve with tearing method
+                self.solvew_with_tearing()
+
+                # Calculate the error for this iteration
+                error = sum(
+                    abs(self.tearing_values[stream][component] - self.fetch_value(getattr(self.model, stream)[component]))
+                    for stream in ['s13', 's17']
+                    for component in self.components
+                )
+
+                # Update optimal values if this error is smaller
+                if error < min_error:
+                    min_error = error
+                    optimal_initial_values['s13'] = s13_init
+                    optimal_initial_values['s17'] = s17_init
+
+        return optimal_initial_values
+        
+
+    def count_equations_and_unknowns(self):
+        """
+        Count the number of active constraints (equations) and variables (unknowns) in the model.
+        """
+        # Count active constraints
+        num_constraints = sum(1 for c in self.model.component_objects(ctype=Constraint, active=True)
+                              for _ in c)
+
+        # Count active variables
+        num_variables = sum(1 for v in self.model.component_objects(ctype=Var, active=True)
+                            for _ in v)
+
+        return num_constraints, num_variables 
+    
     def solve_with_tearing(self):
         # Initial solve
         self.solve()
@@ -39,15 +82,15 @@ class ChemicalModel:
         # Define the tearing streams and initialize their values
         self.tearing_streams = ['s13', 's17']
         self.tearing_values = {
-            's13': {component: 500 for component in self.components},
-            's17': {component: 50 for component in self.components}
+            's13': {component: 1000 for component in self.components},
+            's17': {component: 1000 for component in self.components}
         }
 
         # Define a tolerance for the difference between successive values
         tolerance = 1e-4
 
         # Maximum number of iterations
-        max_iterations = 100
+        max_iterations = 500
 
         # Current iteration counter
         current_iteration = 0
@@ -101,8 +144,49 @@ class ChemicalModel:
         if current_iteration == max_iterations and not converged:
             print("Warning: Maximum number of iterations reached without convergence.")
 
+    def identify_redundant_constraints_sensitivity(self):
+        """Identify potential redundant constraints using sensitivity analysis."""
+        self.model.dual = Suffix(direction=Suffix.IMPORT)
+        solver = SolverFactory('ipopt')
+        result = solver.solve(self.model, tee=True)
 
+        # Check if the solver was successful
+        if result.solver.termination_condition != TerminationCondition.optimal:
+            print("Solver did not converge. Cannot perform sensitivity analysis.")
+            return
 
+        redundant_constraints = []
+        for c in self.model.component_objects(ctype=Constraint, active=True):
+            for index in c:
+                if abs(self.model.dual[c[index]]) < 1e-6:  # Small threshold
+                    redundant_constraints.append(c[index])
+
+        print("Potential redundant constraints based on sensitivity analysis:")
+        for rc in redundant_constraints:
+            print(rc)
+
+            
+            
+            
+    def identify_redundant_constraints_deactivation(self):
+        """Identify potential redundant constraints by deactivating them one by one."""
+        solver = SolverFactory('ipopt')
+        original_objective_value = self.model.objective.expr()
+
+        redundant_constraints = []
+        for c in self.model.component_objects(ctype=Constraint, active=True):
+            for index in c:
+                c[index].deactivate()
+                solver.solve(self.model)
+                if abs(original_objective_value - self.model.objective.expr()) < 1e-6:  # Small threshold
+                    redundant_constraints.append(c[index])
+                c[index].activate()
+
+        print("Potential redundant constraints based on deactivation method:")
+        for rc in redundant_constraints:
+            print(rc)
+
+            
     def set_objective(self):
         """Define the objective function for the model."""
         self.model.objective = Objective(expr=self.model.s13['Hydrogen'], sense=maximize)
@@ -210,4 +294,3 @@ class ChemicalModel:
 
         # Print to console that results are written to the file
         print(f"\nResults have been written to {filename}")
-
