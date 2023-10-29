@@ -5,42 +5,62 @@ from constraints import Constraints
 import pandas as pd
 from pyomo.opt import TerminationCondition
 
-
 class ChemicalModel:
+    
     def __init__(self):
-        # Initialize the model
         self.model = ConcreteModel()
-
-        # Define the components
         self.components = ['Hydrogen', 'Methane', 'Benzene', 'Toluene', 'ParaXylene', 'Diphenyl']
-
-        # Initialize parameters
         self.parameters = Parameters()
-        self.model.params = self.parameters.params  # Set params as an attribute of model
-
-        # Initialize variables and constraints
+        
+        
+        # Set params as an attribute of model
+        self.model.params = self.parameters.params
+        
         self.variables = Variables(self.model, self.components, self.model.params)
         self.constraints = Constraints(self.model, self.model.params)
-
+        
         # Set up the objective function
         self.set_objective()
-
-        # Initialize tearing variables for S13 and S17
-        self.initialize_tearing_variables()
-
-    def set_objective(self):
-        # Define the objective function here
-        pass
-
-    def initialize_tearing_variables(self):
-        """Initialize tearing variables for streams S13 and S17."""
-        self.tearing_streams = ['S13', 'S17']
-        self.tearing_values = {
-            'S13': 1000,
-            'S17': 200
-        }
-
         
+        # Initialize tearing variables for s13 and s17
+        self.tearing_streams = ['s13', 's17', 'S13', 'S17']
+        self.tearing_values = {
+            's13': {component: 0.00001 for component in self.components},
+            's17': {component: 0.00001 for component in self.components},
+            'S13': 1000,
+            'S17': 300
+        }
+        
+    def find_optimal_initial_values(self, s13_range, s17_range):
+        min_error = float('inf')  # Initialize with a large value
+        optimal_initial_values = {'s13': None, 's17': None}
+
+        for s13_init in s13_range:
+            for s17_init in s17_range:
+                # Set initial values
+                for component in self.components:
+                    self.model.s13[component].set_value(s13_init)
+                    self.model.s17[component].set_value(s17_init)
+
+                # Solve with tearing method
+                self.solvew_with_tearing()
+
+                # Calculate the error for this iteration
+                error = sum(
+                    abs(self.tearing_values[stream][component] - self.fetch_value(getattr(self.model, stream)[component]))
+                    for stream in ['s13', 's17']
+                    for component in self.components
+                )
+
+                # Update optimal values if this error is smaller
+                if error < min_error:
+                    min_error = error
+                    optimal_initial_values['s13'] = s13_init
+                    optimal_initial_values['s17'] = s17_init
+
+        return optimal_initial_values
+        
+
     def count_equations_and_unknowns(self):
         """
         Count the number of active constraints (equations) and variables (unknowns) in the model.
@@ -53,9 +73,77 @@ class ChemicalModel:
         num_variables = sum(1 for v in self.model.component_objects(ctype=Var, active=True)
                             for _ in v)
 
-        return num_constraints, num_variables
+        return num_constraints, num_variables 
     
-    
+    def solve_with_tearing(self):
+        # Initial solve
+        self.solve()
+
+        # Define the tearing streams and initialize their values
+        self.tearing_streams = ['s13', 's17']
+        self.tearing_values = {
+            's13': {component: 1000 for component in self.components},
+            's17': {component: 1000 for component in self.components}
+        }
+
+        # Define a tolerance for the difference between successive values
+        tolerance = 1e-4
+
+        # Maximum number of iterations
+        max_iterations = 500
+
+        # Current iteration counter
+        current_iteration = 0
+
+        # List to store the error for each iteration
+        errors = []
+
+        # Loop until the tearing streams converge or max iterations reached
+        while current_iteration < max_iterations:
+            # Store the old values of the tearing streams
+            old_values = {
+                stream: {component: self.tearing_values[stream][component] for component in self.components}
+                for stream in self.tearing_streams
+            }
+
+            # Update the tearing_values dictionary with the current values from the model
+            for stream in self.tearing_streams:
+                for component in self.components:
+                    current_value = self.fetch_value(getattr(self.model, stream)[component])
+                    self.tearing_values[stream][component] = current_value
+
+            # Calculate the error for the current iteration
+            error = sum(
+                abs(self.tearing_values[stream][component] - old_values[stream][component])
+                for stream in self.tearing_streams
+                for component in self.components
+            )
+            errors.append(error)
+
+            # Check for convergence
+            converged = all(e < tolerance for e in errors)
+
+            if converged:
+                break
+
+            # If not converged, update the model with the new tearing values and solve again
+            for stream in self.tearing_streams:
+                for component in self.components:
+                    getattr(self.model, stream)[component].set_value(self.tearing_values[stream][component])
+
+            self.solve()
+
+            # Increment the current iteration counter
+            current_iteration += 1
+
+        # Print the error for each iteration (optional)
+        for i, error in enumerate(errors, 1):
+            print(f"Iteration {i}: Error = {error:.6f}")
+
+        # Check if the solution converged within the maximum number of iterations
+        if current_iteration == max_iterations and not converged:
+            print("Warning: Maximum number of iterations reached without convergence.")
+
     def identify_redundant_constraints_sensitivity(self):
         """Identify potential redundant constraints using sensitivity analysis."""
         self.model.dual = Suffix(direction=Suffix.IMPORT)
@@ -77,6 +165,9 @@ class ChemicalModel:
         for rc in redundant_constraints:
             print(rc)
 
+            
+            
+            
     def identify_redundant_constraints_deactivation(self):
         """Identify potential redundant constraints by deactivating them one by one."""
         solver = SolverFactory('ipopt')
@@ -95,85 +186,11 @@ class ChemicalModel:
         for rc in redundant_constraints:
             print(rc)
 
-        
-    def solve_with_tearing(self):
-        # Initial solve
-        self.solve()
-
-        # Define the tearing streams and initialize their values
-        self.tearing_streams = ['S13', 'S17']
-        self.tearing_values = {
-            'S13': 500,
-            'S17': 50
-        }
-
-        # Define a tolerance for the difference between successive values
-        tolerance = 1e-4
-
-        # Maximum number of iterations
-        max_iterations = 100
-
-        # Current iteration counter
-        current_iteration = 0
-
-        # List to store the error for each iteration
-        errors = []
-
-        # Loop until the tearing streams converge or max iterations reached
-        while current_iteration < max_iterations:
-            # Store the old values of the tearing streams
-            old_values = {
-                stream: self.tearing_values[stream]
-                for stream in self.tearing_streams
-            }
-
-            # Update the tearing_values dictionary with the current values from the model
-            for stream in self.tearing_streams:
-                current_value = self.fetch_value(getattr(self.model, stream))  # Fetch overall molar flow rate
-                self.tearing_values[stream] = current_value
-
-            # Calculate the error for the current iteration
-            error = sum(
-                abs(self.tearing_values[stream] - old_values[stream])
-                for stream in self.tearing_streams
-            )
-            errors.append(error)
-
-            # Check for convergence
-            converged = all(e < tolerance for e in errors)
-
-            if converged:
-                break
-
-            # If not converged, update the model with the new tearing values and solve again
-            for stream in self.tearing_streams:
-                getattr(self.model, stream).set_value(self.tearing_values[stream])  # Set overall molar flow rate
-
-            self.solve()
-
-            # Increment the current iteration counter
-            current_iteration += 1
-
-        # Print the error for each iteration (optional)
-        for i, error in enumerate(errors, 1):
-            print(f"Iteration {i}: Error = {error:.6f}")
-
-        # Check if the solution converged within the maximum number of iterations
-        if current_iteration == max_iterations and not converged:
-            print("Warning: Maximum number of iterations reached without convergence.")
-
-
-
-
+            
     def set_objective(self):
         """Define the objective function for the model."""
-        # Remove the previous objective if it exists
-        if hasattr(self.model, 'objective'):
-            self.model.del_component(self.model.objective)
-        
-        # Define a new objective function (choose one or handle multiple objectives appropriately)
         self.model.objective = Objective(expr=self.model.s13['Hydrogen'], sense=maximize)
-
+        self.model.objective = Objective(expr=self.model.s15['Benzene'], sense=maximize)
         
     def solve(self):
         solver = SolverFactory('ipopt')
@@ -277,4 +294,3 @@ class ChemicalModel:
 
         # Print to console that results are written to the file
         print(f"\nResults have been written to {filename}")
-
