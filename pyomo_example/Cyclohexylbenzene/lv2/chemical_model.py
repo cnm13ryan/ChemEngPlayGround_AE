@@ -4,6 +4,7 @@ from variables import Variables
 from constraints import Constraints
 import pandas as pd
 from pyomo.opt import TerminationCondition
+#import cplex
 
 class ChemicalModel:
     
@@ -19,32 +20,51 @@ class ChemicalModel:
         self.constraints = Constraints(self.model, self.model.params)
         
         # Initialize tearing variables for s28 and s32
-        self.tearing_streams = ['s28', 's32', 'S28', 'S32']
+        self.tearing_streams = ['s25', 's30', 'S25', 'S30']
         self.tearing_values = {
-            's28': {component: 0.00001 for component in self.components},
-            's32': {component: 0.00001 for component in self.components},
-            'S28': 1000,
-            'S32': 300
+            's25': {component: 0.00001 for component in self.components},
+            's30': {component: 0.00001 for component in self.components},
+            'S25': 1000,
+            'S30': 1000
         }
         
-    def find_optimal_initial_values(self, s28_range, s32_range):
-        min_error = float('inf')  # Initialize with a large value
-        optimal_initial_values = {'s28': None, 's32': None}
+    def refine_conflict(self):
+        # Create a CPLEX instance
+        c = cplex.Cplex()
 
-        for s28_init in s28_range:
-            for s32_init in s32_range:
+        # Load the model from the Pyomo instance
+        c.read_from_stream(self.model.write(format='lp_string'))
+
+        # Refine the conflict
+        c.conflict.refine(c.conflict.all_constraints())
+
+        # Get the conflict groups
+        conflict_groups = c.conflict.get()
+
+        # Analyze the results
+        for idx, conflict in enumerate(conflict_groups):
+            if conflict[1] == c.conflict.Status.ConflictMember:
+                print(f"Constraint {idx} is part of the conflict.")
+
+        
+    def find_optimal_initial_values(self, s25_range, s30_range):
+        min_error = float('inf')  # Initialize with a large value
+        optimal_initial_values = {'s25': None, 's30': None}
+
+        for s25_init in s25_range:
+            for s30_init in s30_range:
                 # Set initial values
                 for component in self.components:
-                    self.model.s28[component].set_value(s28_init)
-                    self.model.s32[component].set_value(s32_init)
+                    self.model.s25[component].set_value(s25_init)
+                    self.model.s30[component].set_value(s30_init)
 
                 # Solve with tearing method
-                self.solvew_with_tearing()
+                self.solve_with_tearing()
 
                 # Calculate the error for this iteration
                 error = sum(
                     abs(self.tearing_values[stream][component] - self.fetch_value(getattr(self.model, stream)[component]))
-                    for stream in ['s28', 's32']
+                    for stream in ['s25', 's30']
                     for component in self.components
                 )
 
@@ -76,10 +96,10 @@ class ChemicalModel:
         self.solve()
 
         # Define the tearing streams and initialize their values
-        self.tearing_streams = ['s28', 's32']
+        self.tearing_streams = ['s25', 's30']
         self.tearing_values = {
-            's28': {component: 1000 for component in self.components},
-            's32': {component: 1000 for component in self.components}
+            's25': {component: 1000 for component in self.components},
+            's30': {component: 1000 for component in self.components}
         }
 
         # Define a tolerance for the difference between successive values
@@ -162,9 +182,7 @@ class ChemicalModel:
         for rc in redundant_constraints:
             print(rc)
 
-            
-            
-            
+ 
     def identify_redundant_constraints_deactivation(self):
         """Identify potential redundant constraints by deactivating them one by one."""
         solver = SolverFactory('ipopt')
@@ -186,14 +204,15 @@ class ChemicalModel:
             
     def set_objective(self):
         """Define the objective function for the model."""
-        self.model.objective = Objective(expr=self.model.s35['Cyclohexylbenzene'], sense=maximize)
+        self.model.objective = Objective(expr=self.model.s33['Cyclohexylbenzene'], sense=maximize)
         
     def solve(self):
         solver = SolverFactory('ipopt')
         solver.options['constr_viol_tol'] = 1e-8
         solver.options['acceptable_constr_viol_tol'] = 1e-8
-
         solver.solve(self.model, tee=True)
+#         if self.model.solver.termination_condition == TerminationCondition.infeasible:
+#             self.refine_conflict()
 
     def fetch_value(self, var):
         """Fetch the value of a variable and round it."""
@@ -206,7 +225,7 @@ class ChemicalModel:
         """Generate molar flow rates for a given stream."""
         stream_index = int(stream_name[1:])  # Extract the integer value from the stream name
 
-        if stream_name in ['s14', 's15']:
+        if stream_name in ['s15']:
             s_flow = self.model.params[stream_name.upper()]
             molar_flow_rates = [s_flow * self.model.params[f'{stream_name.upper()}_{component}'] for component in self.components]
         else:
@@ -219,12 +238,12 @@ class ChemicalModel:
         data = []  # This will store rows of data which will be used to create DataFrame
 
         # For each stream, including s14, s15, and skipping s16 to s18
-        for i in list(range(14, 16)) + list(range(19, 42)):  
+        for i in list(range(15, 15)) + list(range(20, 39)):  
             stream_name = f's{i}'
             data.append(self.generate_stream_data(stream_name))
 
         # Creating DataFrame
-        stream_names = [f's{i}' for i in list(range(14, 16)) + list(range(19, 42))]
+        stream_names = [f's{i}' for i in list(range(15, 15)) + list(range(20, 39))]
         df = pd.DataFrame(data, columns=self.components, index=stream_names)
         return df
 
@@ -256,10 +275,9 @@ class ChemicalModel:
 
             # Stream S Results
             s_results = [
-                f"S{i}: {fetch_value(getattr(model, f'S{i}'))}" for i in range(19, 42)
+                f"S{i}: {fetch_value(getattr(model, f'S{i}'))}" for i in range(20, 39)
             ]
             # Add results for S14 and S15 from parameters
-            s_results.insert(0, f"S14: {model.params['S14']}")
             s_results.insert(1, f"S15: {model.params['S15']}")
             display_and_write(file, "\nStream S Results:", s_results)
 
@@ -267,11 +285,10 @@ class ChemicalModel:
             components = ['Hydrogen', 'Methane', 'Benzene', 'Cyclohexane', 'Cyclohexene', 'Cyclohexylbenzene']
             molar_flowRate_results = [
                 f"Molar Flow rate of[{component}] in S{i}: {fetch_value(getattr(model, f's{i}')[component])}" 
-                for i in range(19, 42) for component in components
+                for i in range(20, 39) for component in components
             ]
             # Add composition results for S14 and S15 from parameters
             for component in components:
-                molar_flowRate_results.insert(0, f"Molar Flow rate of[{component}] in S14: {model.params['S14'] * model.params[f'S14_{component}']}")
                 molar_flowRate_results.insert(1, f"Molar Flow rate of[{component}] in S15: {model.params['S15'] * model.params[f'S15_{component}']}")
             display_and_write(file, "\nComponent Flow Rate Results:", molar_flowRate_results)
 

@@ -14,7 +14,7 @@ if __name__ == "__main__":
 #     s22_range = [i for i in range(10, 100, 10)]  # Example range: 10, 20, ..., 90
 #     s23_range = [i for i in range(10, 100, 10)]  # Example range: 10, 20, ..., 90
 
-#     successful, failed = chemical_model.test_initial_values(s22_range, s23_range)
+#     successful, failed = chemical_model.find_optimal_initial_values(s22_range, s23_range)
 
 #     print("Successful initializations:", successful)
 #     print("Failed initializations:", failed)

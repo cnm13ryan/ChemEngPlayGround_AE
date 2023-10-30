@@ -7,7 +7,7 @@ class Variables:
     def define_variables(self, model, components, parameters):
         
         # Define a set for the streams
-        model.streams = RangeSet(19, 42)
+        model.streams = RangeSet(20, 39)
 
         for i in model.streams:
             # Overall Stream molar flow rates
