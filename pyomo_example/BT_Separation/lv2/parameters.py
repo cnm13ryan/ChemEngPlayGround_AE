@@ -2,7 +2,7 @@ class Parameters:
     def __init__(self):
         self.params = {
             # Molar flow rate of Stream 1 (Feed inlet)
-            'S1': 4542.305, # to the power of 10**6 [kmol / hr]
+            'S1': 550.4, # [kmol / hr]
             
             # Molar composition of Stream 1 (Feed inlet)
             'S1_Benzene': 0.2540,

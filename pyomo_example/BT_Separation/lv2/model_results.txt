@@ -1,71 +1,71 @@
 Results:
 
 Stream S Results:
-S1: 4542.305
-S2: 1263.3058666
-S3: 3278.5449029
-S4: 2492.74430712
-S5: 785.80059578
-S6: 50.424127805
-S7: 735.376467975
+S1: 550.4
+S2: 153.077248
+S3: 397.267712
+S4: 302.0507136
+S5: 95.2169984
+S6: 6.10999040000001
+S7: 89.107008
 
 Component Flow Rate Results:
 Molar Flow rate of[TwoMethylbutane] in S1: 0.0
-Molar Flow rate of[ParaXylene] in S1: 0.45423050000000004
+Molar Flow rate of[ParaXylene] in S1: 0.05504
 Molar Flow rate of[Ethylbenzene] in S1: 0.0
-Molar Flow rate of[MetaXylene] in S1: 110.83224200000001
-Molar Flow rate of[OrthoXylene] in S1: 624.112707
-Molar Flow rate of[Toluene] in S1: 2652.70612
-Molar Flow rate of[Benzene] in S1: 1153.74547
-Molar Flow rate of[Benzene] in S2: 1130.6705606
-Molar Flow rate of[Toluene] in S2: 132.635306
+Molar Flow rate of[MetaXylene] in S1: 13.42976
+Molar Flow rate of[OrthoXylene] in S1: 75.62495999999999
+Molar Flow rate of[Toluene] in S1: 321.43359999999996
+Molar Flow rate of[Benzene] in S1: 139.8016
+Molar Flow rate of[Benzene] in S2: 137.005568
+Molar Flow rate of[Toluene] in S2: 16.07168
 Molar Flow rate of[OrthoXylene] in S2: 0.0
 Molar Flow rate of[MetaXylene] in S2: 0.0
 Molar Flow rate of[Ethylbenzene] in S2: 0.0
 Molar Flow rate of[ParaXylene] in S2: 0.0
 Molar Flow rate of[TwoMethylbutane] in S2: 0.0
-Molar Flow rate of[Benzene] in S3: 23.0749094
-Molar Flow rate of[Toluene] in S3: 2520.070814
-Molar Flow rate of[OrthoXylene] in S3: 624.112707
-Molar Flow rate of[MetaXylene] in S3: 110.832242
+Molar Flow rate of[Benzene] in S3: 2.796032
+Molar Flow rate of[Toluene] in S3: 305.36192
+Molar Flow rate of[OrthoXylene] in S3: 75.62496
+Molar Flow rate of[MetaXylene] in S3: 13.42976
 Molar Flow rate of[Ethylbenzene] in S3: 0.0
-Molar Flow rate of[ParaXylene] in S3: 0.4542305
+Molar Flow rate of[ParaXylene] in S3: 0.05504
 Molar Flow rate of[TwoMethylbutane] in S3: 0.0
-Molar Flow rate of[Benzene] in S4: 23.0749094
-Molar Flow rate of[Toluene] in S4: 2469.66939772
+Molar Flow rate of[Benzene] in S4: 2.796032
+Molar Flow rate of[Toluene] in S4: 299.2546816
 Molar Flow rate of[OrthoXylene] in S4: 0.0
 Molar Flow rate of[MetaXylene] in S4: 0.0
 Molar Flow rate of[Ethylbenzene] in S4: 0.0
 Molar Flow rate of[ParaXylene] in S4: 0.0
 Molar Flow rate of[TwoMethylbutane] in S4: 0.0
 Molar Flow rate of[Benzene] in S5: 0.0
-Molar Flow rate of[Toluene] in S5: 50.40141628
-Molar Flow rate of[OrthoXylene] in S5: 624.112707
-Molar Flow rate of[MetaXylene] in S5: 110.832242
+Molar Flow rate of[Toluene] in S5: 6.10723840000001
+Molar Flow rate of[OrthoXylene] in S5: 75.62496
+Molar Flow rate of[MetaXylene] in S5: 13.42976
 Molar Flow rate of[Ethylbenzene] in S5: 0.0
-Molar Flow rate of[ParaXylene] in S5: 0.4542305
+Molar Flow rate of[ParaXylene] in S5: 0.05504
 Molar Flow rate of[TwoMethylbutane] in S5: 0.0
 Molar Flow rate of[Benzene] in S6: 0.0
-Molar Flow rate of[Toluene] in S6: 50.40141628
+Molar Flow rate of[Toluene] in S6: 6.10723840000001
 Molar Flow rate of[OrthoXylene] in S6: 0.0
 Molar Flow rate of[MetaXylene] in S6: 0.0
 Molar Flow rate of[Ethylbenzene] in S6: 0.0
-Molar Flow rate of[ParaXylene] in S6: 0.022711525
+Molar Flow rate of[ParaXylene] in S6: 0.002752
 Molar Flow rate of[TwoMethylbutane] in S6: 0.0
 Molar Flow rate of[Benzene] in S7: 0.0
 Molar Flow rate of[Toluene] in S7: 0.0
-Molar Flow rate of[OrthoXylene] in S7: 624.112707
-Molar Flow rate of[MetaXylene] in S7: 110.832242
+Molar Flow rate of[OrthoXylene] in S7: 75.62496
+Molar Flow rate of[MetaXylene] in S7: 13.42976
 Molar Flow rate of[Ethylbenzene] in S7: 0.0
-Molar Flow rate of[ParaXylene] in S7: 0.431518975
+Molar Flow rate of[ParaXylene] in S7: 0.052288
 Molar Flow rate of[TwoMethylbutane] in S7: 0.0
 
 Stream Table:
-       Benzene     Toluene  OrthoXylene  MetaXylene  Ethylbenzene  ParaXylene  TwoMethylbutane
-s1  1153.74547  2652.70612   624.112707  110.832242           0.0    0.454231              0.0
-s2  1130.67060   132.63530     0.000000    0.000000           0.0    0.000000              0.0
-s3    23.07490  2520.07080   624.112700  110.832200           0.0    0.454200              0.0
-s4    23.07490  2469.66940     0.000000    0.000000           0.0    0.000000              0.0
-s5     0.00000    50.40140   624.112700  110.832200           0.0    0.454200              0.0
-s6     0.00000    50.40140     0.000000    0.000000           0.0    0.022700              0.0
-s7     0.00000     0.00000   624.112700  110.832200           0.0    0.431500              0.0
+     Benzene   Toluene  OrthoXylene  MetaXylene  Ethylbenzene  ParaXylene  TwoMethylbutane
+s1  139.8016  321.4336     75.62496    13.42976           0.0     0.05504              0.0
+s2  137.0056   16.0717      0.00000     0.00000           0.0     0.00000              0.0
+s3    2.7960  305.3619     75.62500    13.42980           0.0     0.05500              0.0
+s4    2.7960  299.2547      0.00000     0.00000           0.0     0.00000              0.0
+s5    0.0000    6.1072     75.62500    13.42980           0.0     0.05500              0.0
+s6    0.0000    6.1072      0.00000     0.00000           0.0     0.00280              0.0
+s7    0.0000    0.0000     75.62500    13.42980           0.0     0.05230              0.0
