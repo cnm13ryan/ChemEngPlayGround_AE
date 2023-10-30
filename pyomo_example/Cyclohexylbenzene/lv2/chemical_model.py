@@ -18,82 +18,45 @@ class ChemicalModel:
         self.variables = Variables(self.model, self.components, self.model.params)
         self.constraints = Constraints(self.model, self.model.params)
         
-    def solve_with_tearing(self, max_iterations=100, tolerance=1e-6):
-        # Define tearing streams
-        tearing_streams = ['S22', 'S23']
-
-        # Initial guess for tearing streams
-        if not hasattr(self.model, 'S22'):
-            self.model.S22 = Var(initialize=10.0)
-        if not hasattr(self.model, 'S23'):
-            self.model.S23 = Var(initialize=10.0)
-
-        # Solver setup
-        solver = SolverFactory('ipopt')
-        solver.options["tol"] = 1e-8
-        solver.options["max_iter"] =5000
-        solver.options["print_level"] = 5
-
-        # Check if dual Suffix already exists, if so, delete it
-        if hasattr(self.model, 'dual'):
-            self.model.del_component(self.model.dual)
-
-        # Now, add the dual Suffix
-        self.model.dual = Suffix(direction=Suffix.IMPORT)
-
-        # Store previous values for convergence check
-        previous_values = {stream: getattr(self.model, stream).value for stream in tearing_streams}
+        # Initialize tearing variables for s28 and s32
+        self.tearing_streams = ['s28', 's32', 'S28', 'S32']
+        self.tearing_values = {
+            's28': {component: 0.00001 for component in self.components},
+            's32': {component: 0.00001 for component in self.components},
+            'S28': 1000,
+            'S32': 300
+        }
         
-        # Iterative solution
-        for iteration in range(max_iterations):
-            results = solver.solve(self.model)
+    def find_optimal_initial_values(self, s28_range, s32_range):
+        min_error = float('inf')  # Initialize with a large value
+        optimal_initial_values = {'s28': None, 's32': None}
 
-            # Check for solver errors
-            if results.solver.termination_condition != TerminationCondition.optimal:
-                print(f"Solver error message: {results.solver.message}")
-                raise ValueError(f"Solver did not converge in iteration {iteration + 1}!")
+        for s28_init in s28_range:
+            for s32_init in s32_range:
+                # Set initial values
+                for component in self.components:
+                    self.model.s28[component].set_value(s28_init)
+                    self.model.s32[component].set_value(s32_init)
 
-            # Feedback mechanism: Update the values of S22 and S23 based on the auxiliary variables
-            self.model.S22.set_value(self.model.aux_S22.value)
-            self.model.S23.set_value(self.model.aux_S23.value)
+                # Solve with tearing method
+                self.solvew_with_tearing()
 
-            # Check for convergence
-            deviations = []
+                # Calculate the error for this iteration
+                error = sum(
+                    abs(self.tearing_values[stream][component] - self.fetch_value(getattr(self.model, stream)[component]))
+                    for stream in ['s28', 's32']
+                    for component in self.components
+                )
+
+                # Update optimal values if this error is smaller
+                if error < min_error:
+                    min_error = error
+                    optimal_initial_values['s28'] = s28_init
+                    optimal_initial_values['s32'] = s32_init
+
+        return optimal_initial_values
         
-            for stream in tearing_streams:
-                current_value = getattr(self.model, stream).value
-                deviation = abs(current_value - previous_values[stream])
-                deviations.append(deviation)
 
-                # Update previous value for next iteration
-                previous_values[stream] = current_value
-
-            # If all deviations are below the tolerance, we have converged
-            if all(dev < tolerance for dev in deviations):
-                print(f"Converged in {iteration + 1} iterations!")
-                return
-
-        print("Maximum iterations reached without convergence!")
-
-    def test_initial_values(self, s22_range, s23_range):
-            successful_initializations = []
-            failed_initializations = []
-
-            for init_s22 in s22_range:
-                for init_s23 in s23_range:
-                    # Set initial values
-                    self.model.S22.set_value(init_s22)
-                    self.model.S23.set_value(init_s23)
-
-                    try:
-                        self.solve_with_tearing()
-                        successful_initializations.append((init_s22, init_s23))
-                    except ValueError as e:
-                        failed_initializations.append((init_s22, init_s23))
-
-            return successful_initializations, failed_initializations
-        
-        
     def count_equations_and_unknowns(self):
         """
         Count the number of active constraints (equations) and variables (unknowns) in the model.
@@ -106,8 +69,78 @@ class ChemicalModel:
         num_variables = sum(1 for v in self.model.component_objects(ctype=Var, active=True)
                             for _ in v)
 
-        return num_constraints, num_variables         
+        return num_constraints, num_variables 
+    
+    def solve_with_tearing(self):
+        # Initial solve
+        self.solve()
 
+        # Define the tearing streams and initialize their values
+        self.tearing_streams = ['s28', 's32']
+        self.tearing_values = {
+            's28': {component: 1000 for component in self.components},
+            's32': {component: 1000 for component in self.components}
+        }
+
+        # Define a tolerance for the difference between successive values
+        tolerance = 1e-4
+
+        # Maximum number of iterations
+        max_iterations = 500
+
+        # Current iteration counter
+        current_iteration = 0
+
+        # List to store the error for each iteration
+        errors = []
+
+        # Loop until the tearing streams converge or max iterations reached
+        while current_iteration < max_iterations:
+            # Store the old values of the tearing streams
+            old_values = {
+                stream: {component: self.tearing_values[stream][component] for component in self.components}
+                for stream in self.tearing_streams
+            }
+
+            # Update the tearing_values dictionary with the current values from the model
+            for stream in self.tearing_streams:
+                for component in self.components:
+                    current_value = self.fetch_value(getattr(self.model, stream)[component])
+                    self.tearing_values[stream][component] = current_value
+
+            # Calculate the error for the current iteration
+            error = sum(
+                abs(self.tearing_values[stream][component] - old_values[stream][component])
+                for stream in self.tearing_streams
+                for component in self.components
+            )
+            errors.append(error)
+
+            # Check for convergence
+            converged = all(e < tolerance for e in errors)
+
+            if converged:
+                break
+
+            # If not converged, update the model with the new tearing values and solve again
+            for stream in self.tearing_streams:
+                for component in self.components:
+                    getattr(self.model, stream)[component].set_value(self.tearing_values[stream][component])
+
+            self.solve()
+
+            # Increment the current iteration counter
+            current_iteration += 1
+
+        # Print the error for each iteration (optional)
+        for i, error in enumerate(errors, 1):
+            print(f"Iteration {i}: Error = {error:.6f}")
+
+        # Check if the solution converged within the maximum number of iterations
+        if current_iteration == max_iterations and not converged:
+            print("Warning: Maximum number of iterations reached without convergence.")
+
+            
     def identify_redundant_constraints_sensitivity(self):
         """Identify potential redundant constraints using sensitivity analysis."""
         self.model.dual = Suffix(direction=Suffix.IMPORT)
@@ -129,6 +162,9 @@ class ChemicalModel:
         for rc in redundant_constraints:
             print(rc)
 
+            
+            
+            
     def identify_redundant_constraints_deactivation(self):
         """Identify potential redundant constraints by deactivating them one by one."""
         solver = SolverFactory('ipopt')
@@ -147,15 +183,15 @@ class ChemicalModel:
         for rc in redundant_constraints:
             print(rc)
 
-
+            
     def set_objective(self):
         """Define the objective function for the model."""
-        self.model.objective = Objective(expr=self.model.s28['Cyclohexylbenzene'], sense=maximize)
+        self.model.objective = Objective(expr=self.model.s35['Cyclohexylbenzene'], sense=maximize)
         
     def solve(self):
-        solver = SolverFactory('glpk')
-#         solver.options['constr_viol_tol'] = 1e-8
-#         solver.options['acceptable_constr_viol_tol'] = 1e-8
+        solver = SolverFactory('ipopt')
+        solver.options['constr_viol_tol'] = 1e-8
+        solver.options['acceptable_constr_viol_tol'] = 1e-8
 
         solver.solve(self.model, tee=True)
 
@@ -166,12 +202,11 @@ class ChemicalModel:
             return 0.0
         return round(val, 4)  
 
-    
     def generate_stream_data(self, stream_name):
         """Generate molar flow rates for a given stream."""
         stream_index = int(stream_name[1:])  # Extract the integer value from the stream name
 
-        if stream_name in ['s20', 's21']:
+        if stream_name in ['s14', 's15']:
             s_flow = self.model.params[stream_name.upper()]
             molar_flow_rates = [s_flow * self.model.params[f'{stream_name.upper()}_{component}'] for component in self.components]
         else:
@@ -183,15 +218,16 @@ class ChemicalModel:
         """Generate a table with molar flow rates of each component in each stream."""
         data = []  # This will store rows of data which will be used to create DataFrame
 
-        # For each stream
-        for i in range(20, 34):  # Adjusted the range to start from S8
+        # For each stream, including s14, s15, and skipping s16 to s18
+        for i in list(range(14, 16)) + list(range(19, 42)):  
             stream_name = f's{i}'
             data.append(self.generate_stream_data(stream_name))
 
         # Creating DataFrame
-        stream_names = [f's{i}' for i in range(20, 34)]  # Adjusted the range to start from S8
+        stream_names = [f's{i}' for i in list(range(14, 16)) + list(range(19, 42))]
         df = pd.DataFrame(data, columns=self.components, index=stream_names)
         return df
+
 
     def display_results(self):
         # Helper function to fetch the value
@@ -220,23 +256,23 @@ class ChemicalModel:
 
             # Stream S Results
             s_results = [
-                f"S{i}: {fetch_value(getattr(model, f'S{i}'))}" for i in range(22, 34)
+                f"S{i}: {fetch_value(getattr(model, f'S{i}'))}" for i in range(19, 42)
             ]
-            # Add results for S8 and S9 from parameters
-            s_results.insert(0, f"S20: {model.params['S20']}")
-            s_results.insert(1, f"S21: {model.params['S21']}")
+            # Add results for S14 and S15 from parameters
+            s_results.insert(0, f"S14: {model.params['S14']}")
+            s_results.insert(1, f"S15: {model.params['S15']}")
             display_and_write(file, "\nStream S Results:", s_results)
 
-            # Component molar flow rate results for Streams S10 to S18
+            # Component molar flow rate results for Streams S19 to S41
             components = ['Hydrogen', 'Methane', 'Benzene', 'Cyclohexane', 'Cyclohexene', 'Cyclohexylbenzene']
             molar_flowRate_results = [
                 f"Molar Flow rate of[{component}] in S{i}: {fetch_value(getattr(model, f's{i}')[component])}" 
-                for i in range(22, 34) for component in components
+                for i in range(19, 42) for component in components
             ]
-            # Add composition results for S8 and S9 from parameters
+            # Add composition results for S14 and S15 from parameters
             for component in components:
-                molar_flowRate_results.insert(0, f"Molar Flow rate of[{component}] in S20: {model.params['S20'] * model.params[f'S20_{component}']}")
-                molar_flowRate_results.insert(1, f"Molar Flow rate of[{component}] in S21: {model.params['S21'] * model.params[f'S21_{component}']}")
+                molar_flowRate_results.insert(0, f"Molar Flow rate of[{component}] in S14: {model.params['S14'] * model.params[f'S14_{component}']}")
+                molar_flowRate_results.insert(1, f"Molar Flow rate of[{component}] in S15: {model.params['S15'] * model.params[f'S15_{component}']}")
             display_and_write(file, "\nComponent Flow Rate Results:", molar_flowRate_results)
 
             # Generate the stream table

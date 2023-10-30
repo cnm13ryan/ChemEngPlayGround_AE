@@ -7,7 +7,7 @@ class Variables:
     def define_variables(self, model, components, parameters):
         
         # Define a set for the streams
-        model.streams = RangeSet(22, 34)
+        model.streams = RangeSet(19, 42)
 
         for i in model.streams:
             # Overall Stream molar flow rates
@@ -25,6 +25,3 @@ class Variables:
         model.zeta_3 = Var(within=NonNegativeReals, doc='Extent of reaction R3')
         
         
-        # Auxiliary variable (tearing streams)
-        model.aux_S22 = Var(within=NonNegativeReals)
-        model.aux_S23 = Var(within=NonNegativeReals)
