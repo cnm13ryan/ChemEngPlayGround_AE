@@ -1,4 +1,4 @@
-from pyomo.environ import ConcreteModel, SolverFactory, Objective, maximize, Constraint, Var, Suffix
+from pyomo.environ import ConcreteModel, SolverFactory, Objective, maximize, Constraint, Var, Suffix, minimize
 from parameters import Parameters
 from variables import Variables
 from constraints import Constraints
@@ -189,8 +189,7 @@ class ChemicalModel:
             
     def set_objective(self):
         """Define the objective function for the model."""
-        self.model.objective = Objective(expr=self.model.s13['Hydrogen'], sense=maximize)
-        self.model.objective = Objective(expr=self.model.s15['Benzene'], sense=maximize)
+        self.model.objective = Objective(expr=self.model.S8, sense=minimize)
         
     def solve(self):
         solver = SolverFactory('ipopt')
@@ -206,12 +205,15 @@ class ChemicalModel:
             return 0.0
         return round(val, 4)  
 
-    
     def generate_stream_data(self, stream_name):
         """Generate molar flow rates for a given stream."""
         stream_index = int(stream_name[1:])  # Extract the integer value from the stream name
 
-        if stream_name in ['s8', 's9']:
+        if stream_name == 's8':
+            s_flow = self.fetch_value(getattr(self.model, stream_name.upper()))
+            molar_flow_rates = [s_flow * self.model.params[f'{stream_name.upper()}_{component}'] for component in self.components]
+        elif stream_name == 's9':
+            # If S9 is a parameter or some other attribute, fetch its value directly
             s_flow = self.model.params[stream_name.upper()]
             molar_flow_rates = [s_flow * self.model.params[f'{stream_name.upper()}_{component}'] for component in self.components]
         else:
@@ -219,6 +221,7 @@ class ChemicalModel:
 
         return molar_flow_rates
 
+    
     def generate_stream_table(self):
         """Generate a table with molar flow rates of each component in each stream."""
         data = []  # This will store rows of data which will be used to create DataFrame
@@ -263,7 +266,7 @@ class ChemicalModel:
                 f"S{i}: {fetch_value(getattr(model, f'S{i}'))}" for i in range(10, 19)
             ]
             # Add results for S8 and S9 from parameters
-            s_results.insert(0, f"S8: {model.params['S8']}")
+            s_results.insert(0, f"S8: {model.S8}")
             s_results.insert(1, f"S9: {model.params['S9']}")
             display_and_write(file, "\nStream S Results:", s_results)
 
@@ -275,7 +278,7 @@ class ChemicalModel:
             ]
             # Add composition results for S8 and S9 from parameters
             for component in components:
-                molar_flowRate_results.insert(0, f"Molar Flow rate of[{component}] in S8: {model.params['S8'] * model.params[f'S8_{component}']}")
+                molar_flowRate_results.insert(0, f"Molar Flow rate of[{component}] in S8: {model.S8 * model.params[f'S8_{component}']}")
                 molar_flowRate_results.insert(1, f"Molar Flow rate of[{component}] in S9: {model.params['S9'] * model.params[f'S9_{component}']}")
             display_and_write(file, "\nComponent Flow Rate Results:", molar_flowRate_results)
 

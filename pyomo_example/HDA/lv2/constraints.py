@@ -130,7 +130,7 @@ class Constraints:
     
     # Hydrogen (Individual Component material balance)
     def Hydrogen_comp_rule1(self, model):
-        return model.params['S9'] * model.params['S9_Hydrogen'] + model.params['S8'] * model.params['S8_Hydrogen'] + model.s13['Hydrogen'] + model.s17['Hydrogen'] - model.zeta_1 + model.zeta_2 == model.s10['Hydrogen'] 
+        return model.params['S9'] * model.params['S9_Hydrogen'] + model.S8 * model.params['S8_Hydrogen'] + model.s13['Hydrogen'] + model.s17['Hydrogen'] - model.zeta_1 + model.zeta_2 == model.s10['Hydrogen'] 
 
     def Hydrogen_comp_rule2(self, model):
         return model.s10['Hydrogen']  ==  model.s11['Hydrogen']
@@ -149,7 +149,7 @@ class Constraints:
     
     # Methane (Individual Component material balance)
     def Methane_comp_rule1(self, model):
-        return model.params['S9']*model.params['S9_Methane'] + model.params['S8']*model.params['S8_Methane'] + model.s13['Methane'] + model.s17['Methane'] + model.zeta_1 == model.s10['Methane']
+        return model.params['S9']*model.params['S9_Methane'] + model.S8*model.params['S8_Methane'] + model.s13['Methane'] + model.s17['Methane'] + model.zeta_1 == model.s10['Methane']
     
     def Methane_comp_rule2(self, model):
         return model.s10['Methane'] == model.s11['Methane'] + model.s12['Methane']
@@ -170,8 +170,7 @@ class Constraints:
     
     # Benzene (Individual Component material balance)
     def Benzene_comp_rule1(self, model):
-        return model.params['S9']*model.params['S9_Benzene'] + model.params['S8']*model.params['S8_Benzene'] + model.s13['Benzene'] + model.s17['Benzene'] + model.zeta_1 - 2 * model.zeta_2 == model.s10['Benzene']
-    
+        return model.params['S9']*model.params['S9_Benzene'] + model.S8*model.params['S8_Benzene'] + model.s13['Benzene'] + model.s17['Benzene'] + model.zeta_1 - 2 * model.zeta_2 == model.s10['Benzene']                                                           
     def Benzene_comp_rule2(self, model):
         return model.s10['Benzene'] == model.s11['Benzene'] + model.s12['Benzene']
    
@@ -193,7 +192,7 @@ class Constraints:
     
     # Toluene (Individual Component material balance)
     def Toluene_comp_rule1(self, model):
-        return model.params['S9']*model.params['S9_Toluene'] + model.params['S8']*model.params['S8_Toluene'] + model.s13['Toluene'] + model.s17['Toluene'] - model.zeta_1 == model.s10['Toluene']
+        return model.params['S9']*model.params['S9_Toluene'] + model.S8 * model.params['S8_Toluene'] + model.s13['Toluene'] + model.s17['Toluene'] - model.zeta_1 == model.s10['Toluene']
        
     def Toluene_comp_rule2(self, model):
         return model.s10['Toluene'] ==  model.s12['Toluene']
@@ -206,10 +205,12 @@ class Constraints:
     
     def Toluene_comp_rule5(self, model):
         return model.x[11, 'Toluene'] + model.x[13, 'Toluene'] + model.x[14, 'Toluene'] == 0
+    def Toluene_comp_rule6(self, model):
+        return model.s15['Toluene'] == 0
      
     # ParaXylene (Individual Component material balance)
     def ParaXylene_comp_rule1(self, model):
-        return model.params['S9']*model.params['S9_ParaXylene'] + model.params['S8']*model.params['S8_ParaXylene'] + model.s13['ParaXylene'] + model.s17['ParaXylene'] == model.s10['ParaXylene']
+        return model.params['S9']*model.params['S9_ParaXylene'] + model.S8*model.params['S8_ParaXylene'] + model.s13['ParaXylene'] + model.s17['ParaXylene'] == model.s10['ParaXylene']
     
     def ParaXylene_comp_rule2(self, model):
         return model.s10['ParaXylene'] ==  model.s12['ParaXylene']
@@ -223,7 +224,7 @@ class Constraints:
 
     # Diphenyl (Individual Component material balance)
     def Diphenyl_comp_rule1(self, model):
-        return model.params['S9']*model.params['S9_Diphenyl'] + model.params['S8']*model.params['S8_Diphenyl'] + model.s13['Diphenyl'] + model.s17['Diphenyl']  + model.zeta_2 == model.s10['Diphenyl']
+        return model.params['S9']*model.params['S9_Diphenyl'] + model.S8*model.params['S8_Diphenyl'] + model.s13['Diphenyl'] + model.s17['Diphenyl']  + model.zeta_2 == model.s10['Diphenyl']
     
     def Diphenyl_comp_rule2(self, model):
         return model.s10['Diphenyl'] ==  model.s12['Diphenyl']

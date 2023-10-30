@@ -29,3 +29,4 @@ class Variables:
         # Conversion of Toluene
         model.X = Var(within=NonNegativeReals, bounds=[0, 1], initialize=0.5)
         
+        model.S8 = Var(within=NonNegativeReals, initialize=1000)
