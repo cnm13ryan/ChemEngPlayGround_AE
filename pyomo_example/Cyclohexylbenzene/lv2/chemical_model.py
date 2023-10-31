@@ -19,7 +19,7 @@ class ChemicalModel:
         self.variables = Variables(self.model, self.components, self.model.params)
         self.constraints = Constraints(self.model, self.model.params)
         
-        # Initialize tearing variables for s28 and s32
+        # Initialize tearing variables for s25 and s30
         self.tearing_streams = ['s25', 's30', 'S25', 'S30']
         self.tearing_values = {
             's25': {component: 0.00001 for component in self.components},
@@ -204,7 +204,7 @@ class ChemicalModel:
             
     def set_objective(self):
         """Define the objective function for the model."""
-        self.model.objective = Objective(expr=self.model.s33['Cyclohexylbenzene'], sense=maximize)
+        self.model.objective = Objective(expr=self.model.s21['Hydrogen'], sense=minimise)
         
     def solve(self):
         solver = SolverFactory('ipopt')
@@ -233,20 +233,34 @@ class ChemicalModel:
 
         return molar_flow_rates
 
+#     def generate_stream_table(self):
+#         """Generate a table with molar flow rates of each component in each stream."""
+#         data = []  # This will store rows of data which will be used to create DataFrame
+
+#         # For each stream, including s14, s15, and skipping s16 to s18
+#         for i in list(range(15, 15)) + list(range(19, 39)):  
+#             stream_name = f's{i}'
+#             data.append(self.generate_stream_data(stream_name))
+
+#         # Creating DataFrame
+#         stream_names = [f's{i}' for i in list(range(15, 15)) + list(range(19, 39))]
+#         df = pd.DataFrame(data, columns=self.components, index=stream_names)
+#         return df
     def generate_stream_table(self):
         """Generate a table with molar flow rates of each component in each stream."""
         data = []  # This will store rows of data which will be used to create DataFrame
 
-        # For each stream, including s14, s15, and skipping s16 to s18
-        for i in list(range(15, 15)) + list(range(20, 39)):  
-            stream_name = f's{i}'
-            data.append(self.generate_stream_data(stream_name))
+        # For each stream, including s14, s15, and skipping s16 to s18, s22, s23, and s28
+        streams_to_skip = [16, 17, 18, 22, 23, 28]
+        for i in list(range(15, 15)) + list(range(19, 39)):  
+            if i not in streams_to_skip:
+                stream_name = f's{i}'
+                data.append(self.generate_stream_data(stream_name))
 
         # Creating DataFrame
-        stream_names = [f's{i}' for i in list(range(15, 15)) + list(range(20, 39))]
+        stream_names = [f's{i}' for i in list(range(15, 15)) + list(range(19, 39)) if i not in streams_to_skip]
         df = pd.DataFrame(data, columns=self.components, index=stream_names)
         return df
-
 
     def display_results(self):
         # Helper function to fetch the value
@@ -275,19 +289,31 @@ class ChemicalModel:
 
             # Stream S Results
             s_results = [
-                f"S{i}: {fetch_value(getattr(model, f'S{i}'))}" for i in range(20, 39)
+                f"S{i}: {fetch_value(getattr(model, f'S{i}'))}" for i in range(19, 39)
             ]
             # Add results for S14 and S15 from parameters
             s_results.insert(1, f"S15: {model.params['S15']}")
             display_and_write(file, "\nStream S Results:", s_results)
 
             # Component molar flow rate results for Streams S19 to S41
+#             components = ['Hydrogen', 'Methane', 'Benzene', 'Cyclohexane', 'Cyclohexene', 'Cyclohexylbenzene']
+#             molar_flowRate_results = [
+#                 f"Molar Flow rate of[{component}] in S{i}: {fetch_value(getattr(model, f's{i}')[component])}" 
+#                 for i in range(19, 39) for component in components
+#             ]
+#             # Add composition results for S15 from parameters
+#             for component in components:
+#                 molar_flowRate_results.insert(1, f"Molar Flow rate of[{component}] in S15: {model.params['S15'] * model.params[f'S15_{component}']}")
+#             display_and_write(file, "\nComponent Flow Rate Results:", molar_flowRate_results)
+
+           # Component molar flow rate results for Streams S19 to S41, excluding S22, S23, and S28
+            streams_to_skip = [22, 23, 28]
             components = ['Hydrogen', 'Methane', 'Benzene', 'Cyclohexane', 'Cyclohexene', 'Cyclohexylbenzene']
             molar_flowRate_results = [
                 f"Molar Flow rate of[{component}] in S{i}: {fetch_value(getattr(model, f's{i}')[component])}" 
-                for i in range(20, 39) for component in components
+                for i in range(19, 39) if i not in streams_to_skip for component in components
             ]
-            # Add composition results for S14 and S15 from parameters
+            # Add composition results for S15 from parameters
             for component in components:
                 molar_flowRate_results.insert(1, f"Molar Flow rate of[{component}] in S15: {model.params['S15'] * model.params[f'S15_{component}']}")
             display_and_write(file, "\nComponent Flow Rate Results:", molar_flowRate_results)
