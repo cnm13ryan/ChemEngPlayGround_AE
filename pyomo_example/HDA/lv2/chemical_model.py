@@ -189,7 +189,8 @@ class ChemicalModel:
             
     def set_objective(self):
         """Define the objective function for the model."""
-        self.model.objective = Objective(expr=self.model.S8, sense=minimize)
+        #self.model.objective = Objective(expr=self.model.S8, sense=minimize)
+        self.model.objective = Objective(expr=self.model.s15['Benzene'], sense=maximize)
         
     def solve(self):
         solver = SolverFactory('ipopt')

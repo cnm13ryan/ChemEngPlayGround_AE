@@ -133,18 +133,15 @@ class Constraints:
         return model.params['S9'] * model.params['S9_Hydrogen'] + model.S8 * model.params['S8_Hydrogen'] + model.s13['Hydrogen'] + model.s17['Hydrogen'] - model.zeta_1 + model.zeta_2 == model.s10['Hydrogen'] 
 
     def Hydrogen_comp_rule2(self, model):
-        return model.s10['Hydrogen']  ==  model.s11['Hydrogen']
+        return model.s10['Hydrogen']  ==  model.s11['Hydrogen'] + model.s12['Hydrogen']
     
     def Hydrogen_comp_rule3(self, model):
         return model.s11['Hydrogen'] == model.s13['Hydrogen'] + model.s14['Hydrogen']
     
     def Hydrogen_comp_rule4(self, model):
-        return model.s12['Hydrogen'] == model.s15['Hydrogen'] 
+        return model.s12['Hydrogen'] + model.s15['Hydrogen'] + model.s16['Hydrogen'] + model.s17['Hydrogen'] + model.s18['Hydrogen'] == 0
     
     def Hydrogen_comp_rule5(self, model):
-        return model.s16['Hydrogen'] + model.s17['Hydrogen'] + model.s18['Hydrogen'] == 0
-    
-    def Hydrogen_comp_rule6(self, model):
         return model.s13['Hydrogen'] == 5 * model.s14['Hydrogen'] 
     
     # Methane (Individual Component material balance)

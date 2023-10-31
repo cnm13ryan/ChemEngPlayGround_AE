@@ -19,9 +19,9 @@ class Parameters:
             # Molar composition of Stream 9 (Combined Feed inlet of Stream 4 and 6)
             'S9_Hydrogen': 0.0,
             'S9_Methane': 0.0,
-            'S9_Benzene': 0.009,
+            'S9_Benzene': 0.009, # Should be 0.0091
             'S9_Toluene': 0.991 ,
-            'S9_ParaXylene': 0.0, # Trace (Ignore this)
+            'S9_ParaXylene': 0.0, # Trace Should be 0.0009
             'S9_Diphenyl': 0.0,
             
             # Fractional recoveries of HK/LK
