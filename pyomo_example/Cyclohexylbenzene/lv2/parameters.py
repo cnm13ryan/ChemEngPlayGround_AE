@@ -2,13 +2,13 @@ class Parameters:
     def __init__(self):
         self.params = {
             
-            # Molar flow rate of Stream 15 (Hydrogen, Methane, and Benzene)
-            'S15': 39.1038, # [kmol / hr]
+            # Molar flow rate of Stream 15 
+            'S15': 20.7942, # [kmol / hr]
             
             # Molar Composition of Stream 15
             'S15_Hydrogen': 0.0,
-            'S15_Methane': 0.8519,
-            'S15_Benzene': 0.1481,
+            'S15_Methane': 0.8657,
+            'S15_Benzene': 0.1343,
             'S15_Cyclohexane': 0.0 ,
             'S15_Cyclohexene': 0.0,
             'S15_Cyclohexylbenzene': 0.0,  
@@ -23,24 +23,24 @@ class Parameters:
                         
             
             # Fractional recoveries of HK/LK (Distillation Column 7)
-            'FR_S19_LK': 0.98,
-            'FR_S20_HK': 0.95,
+            'FR_S19_LK': 0.99,
+            'FR_S20_HK': 0.99,
             
             # Fractional recoveries of HK/LK (Distillation Column 8)
-            'FR_S25_LK': 0.98,
-            'FR_S29_HK': 0.95,
+            'FR_S25_LK': 0.99,
+            'FR_S29_HK': 0.99,
             
             # Fractional recoveries of HK/LK (Distillation Column 9)
-            'FR_S32_LK': 0.98,
-            'FR_S33_HK': 0.95,
+            'FR_S32_LK': 0.99,
+            'FR_S33_HK': 0.99,
             
             # Fractional recoveries of HK/LK (Distillation Column 10)
-            'FR_S34_LK': 0.98,
-            'FR_S35_HK': 0.95,
+            'FR_S34_LK': 0.99,
+            'FR_S35_HK': 0.99,
             
             # Fractional recoveries of HK/LK (Distillation Column 11)
-            'FR_S36_LK': 0.98,
-            'FR_S37_HK': 0.95,
+            'FR_S36_LK': 0.99,
+            'FR_S37_HK': 0.99,
                     
             
             # Conversion of benzene at PFR (at the maximum yield of CHE):

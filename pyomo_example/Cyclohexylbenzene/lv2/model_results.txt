@@ -2,153 +2,153 @@ Results:
 
 Stream S Results:
 S19: 5
-S15: 39.1038
-S20: 5.791383323125339
-S21: 47967.75462541844
+S15: 20.7942
+S20: 2.7949891609741333
+S21: 48929.296355592676
 S22: 349999.99999994715
 S23: 349999.99999994715
-S24: 293698.7092929275
-S25: 287786.94117280026
-S26: 239822.45097733353
-S27: 47964.490195465565
+S24: 296551.29063235805
+S25: 293565.24355097685
+S26: 244637.7029591468
+S27: 48927.54059182826
 S28: 299999.99999994837
-S29: 5911.764699250011
-S30: 5913.853620786161
-S31: 5911.87467578925
-S32: 5910.009775706227
-S33: 1.864900081338986
-S34: 5907.823904985131
-S35: 2.0904013005701487
-S36: 5906.266410954351
-S37: 1.5574940291915325
-S38: 245728.71738828634
+S29: 2985.9957415972003
+S30: 2987.0930784552825
+S31: 2986.0986288387962
+S32: 2985.134077282685
+S33: 0.9645515555532539
+S34: 2984.026659663926
+S35: 1.0979352640852795
+S36: 2983.2823469065593
+S37: 0.7443127568247211
+S38: 247620.9853060528
 
 Component Flow Rate Results:
 Molar Flow rate of[Hydrogen] in S19: 0.0
 Molar Flow rate of[Cyclohexylbenzene] in S15: 0.0
 Molar Flow rate of[Cyclohexene] in S15: 0.0
 Molar Flow rate of[Cyclohexane] in S15: 0.0
-Molar Flow rate of[Benzene] in S15: 5.79127278
-Molar Flow rate of[Methane] in S15: 33.31252722
+Molar Flow rate of[Benzene] in S15: 2.79266106
+Molar Flow rate of[Methane] in S15: 18.00153894
 Molar Flow rate of[Hydrogen] in S15: 0.0
-Molar Flow rate of[Methane] in S19: 32.6462766756
-Molar Flow rate of[Benzene] in S19: 0.28956363900424037
+Molar Flow rate of[Methane] in S19: 17.821523550600002
+Molar Flow rate of[Benzene] in S19: 0.027926610600282453
 Molar Flow rate of[Cyclohexane] in S19: 0.0
 Molar Flow rate of[Cyclohexene] in S19: 0.0
-Molar Flow rate of[Cyclohexylbenzene] in S19: 9.924304153398619e-09
-Molar Flow rate of[Hydrogen] in S20: 1.997519984696509e-15
-Molar Flow rate of[Methane] in S20: 0.28967419211559753
-Molar Flow rate of[Benzene] in S20: 5.50170914099152
+Molar Flow rate of[Cyclohexylbenzene] in S19: 9.995867150066774e-09
+Molar Flow rate of[Hydrogen] in S20: 2.075484945057038e-15
+Molar Flow rate of[Methane] in S20: 0.03025472157850444
+Molar Flow rate of[Benzene] in S20: 2.764734449399435
 Molar Flow rate of[Cyclohexane] in S20: 0.0
 Molar Flow rate of[Cyclohexene] in S20: 0.0
 Molar Flow rate of[Cyclohexylbenzene] in S20: 0.0
-Molar Flow rate of[Hydrogen] in S21: 47967.75462541854
+Molar Flow rate of[Hydrogen] in S21: 48929.29635559269
 Molar Flow rate of[Methane] in S21: 0.0
 Molar Flow rate of[Benzene] in S21: 0.0
-Molar Flow rate of[Cyclohexane] in S21: 1.9744936623444554e-08
+Molar Flow rate of[Cyclohexane] in S21: 1.9952434534039425e-08
 Molar Flow rate of[Cyclohexene] in S21: 0.0
-Molar Flow rate of[Cyclohexylbenzene] in S21: 9.943777076306771e-09
-Molar Flow rate of[Hydrogen] in S24: 293658.37053869345
-Molar Flow rate of[Methane] in S24: 34.76089792410471
-Molar Flow rate of[Benzene] in S24: 1.9476050224309123
-Molar Flow rate of[Cyclohexane] in S24: 1.5229439494031853
-Molar Flow rate of[Cyclohexene] in S24: 2.1073073481430926
+Molar Flow rate of[Cyclohexylbenzene] in S21: 1.0007201142923066e-08
+Molar Flow rate of[Hydrogen] in S24: 296530.3656796657
+Molar Flow rate of[Methane] in S24: 18.15281234184089
+Molar Flow rate of[Benzene] in S24: 0.9787159815513612
+Molar Flow rate of[Cyclohexane] in S24: 0.740593045022238
+Molar Flow rate of[Cyclohexene] in S24: 1.0528313339412458
 Molar Flow rate of[Cyclohexylbenzene] in S24: 0.0
-Molar Flow rate of[Hydrogen] in S25: 287785.2031279196
-Molar Flow rate of[Methane] in S25: 1.7380448961974744
+Molar Flow rate of[Hydrogen] in S25: 293565.062022869
+Molar Flow rate of[Methane] in S25: 0.18152812341788363
 Molar Flow rate of[Benzene] in S25: 0.0
 Molar Flow rate of[Cyclohexane] in S25: 0.0
-Molar Flow rate of[Cyclohexene] in S25: 1.0578259833589947e-08
+Molar Flow rate of[Cyclohexene] in S25: 1.0587006126608807e-08
 Molar Flow rate of[Cyclohexylbenzene] in S25: 0.0
-Molar Flow rate of[Hydrogen] in S26: 239821.00260659965
-Molar Flow rate of[Methane] in S26: 1.4483707467709763
+Molar Flow rate of[Hydrogen] in S26: 244637.55168572417
+Molar Flow rate of[Methane] in S26: 0.15127343617742378
 Molar Flow rate of[Benzene] in S26: 0.0
 Molar Flow rate of[Cyclohexane] in S26: 0.0
-Molar Flow rate of[Cyclohexene] in S26: 8.789526456582723e-09
+Molar Flow rate of[Cyclohexene] in S26: 8.820800815219074e-09
 Molar Flow rate of[Cyclohexylbenzene] in S26: 0.0
-Molar Flow rate of[Hydrogen] in S27: 47964.20052131993
-Molar Flow rate of[Methane] in S27: 0.2896741493551273
+Molar Flow rate of[Hydrogen] in S27: 48927.510337144835
+Molar Flow rate of[Methane] in S27: 0.030254687235546987
 Molar Flow rate of[Benzene] in S27: 0.0
 Molar Flow rate of[Cyclohexane] in S27: 0.0
-Molar Flow rate of[Cyclohexene] in S27: 1.7582290043052016e-09
+Molar Flow rate of[Cyclohexene] in S27: 1.7641816395501596e-09
 Molar Flow rate of[Cyclohexylbenzene] in S27: 0.0
-Molar Flow rate of[Hydrogen] in S29: 5873.167410773883
-Molar Flow rate of[Methane] in S29: 33.022853027884636
-Molar Flow rate of[Benzene] in S29: 1.9476050324212706
-Molar Flow rate of[Cyclohexane] in S29: 1.5229439593645682
-Molar Flow rate of[Cyclohexene] in S29: 2.1038864664447487
+Molar Flow rate of[Hydrogen] in S29: 2965.303656796667
+Molar Flow rate of[Methane] in S29: 17.9712842184215
+Molar Flow rate of[Benzene] in S29: 0.9787159915508189
+Molar Flow rate of[Cyclohexane] in S29: 0.7405930550201675
+Molar Flow rate of[Cyclohexene] in S29: 1.0014915455399205
 Molar Flow rate of[Cyclohexylbenzene] in S29: 0.0
-Molar Flow rate of[Hydrogen] in S30: 5873.167410773882
-Molar Flow rate of[Methane] in S30: 33.02285301632768
-Molar Flow rate of[Benzene] in S30: 1.9476050340509878
-Molar Flow rate of[Cyclohexane] in S30: 1.5540244484363674
-Molar Flow rate of[Cyclohexene] in S30: 4.161549242892536
-Molar Flow rate of[Cyclohexylbenzene] in S30: 0.0001782705714576197
-Molar Flow rate of[Hydrogen] in S31: 5873.167410773882
-Molar Flow rate of[Methane] in S31: 33.02285301475688
+Molar Flow rate of[Hydrogen] in S30: 2965.303656796666
+Molar Flow rate of[Methane] in S30: 17.971284207881954
+Molar Flow rate of[Benzene] in S30: 0.978715991611812
+Molar Flow rate of[Cyclohexane] in S30: 0.7480737929656404
+Molar Flow rate of[Cyclohexene] in S30: 2.0912735078489275
+Molar Flow rate of[Cyclohexylbenzene] in S30: 7.415830823653076e-05
+Molar Flow rate of[Hydrogen] in S31: 2965.303656796666
+Molar Flow rate of[Methane] in S31: 17.971284207341498
 Molar Flow rate of[Benzene] in S31: 0.0
-Molar Flow rate of[Cyclohexane] in S31: 1.5540244484363674
-Molar Flow rate of[Cyclohexene] in S31: 2.2139441969544498
-Molar Flow rate of[Cyclohexylbenzene] in S31: 1.9164433652073516
-Molar Flow rate of[Hydrogen] in S32: 5873.167410773882
-Molar Flow rate of[Methane] in S32: 33.02285300234769
-Molar Flow rate of[Benzene] in S32: 1.2375599922563073e-12
-Molar Flow rate of[Cyclohexane] in S32: 1.5540244487455963
-Molar Flow rate of[Cyclohexene] in S32: 2.169665313015361
-Molar Flow rate of[Cyclohexylbenzene] in S32: 0.09582216823443872
-Molar Flow rate of[Hydrogen] in S33: 4.041089168811728e-14
-Molar Flow rate of[Methane] in S33: 1.0838408868470893e-08
+Molar Flow rate of[Cyclohexane] in S31: 0.7480737929656404
+Molar Flow rate of[Cyclohexene] in S31: 1.1125575060852155
+Molar Flow rate of[Cyclohexylbenzene] in S31: 0.9630565457369391
+Molar Flow rate of[Hydrogen] in S32: 2965.303656796666
+Molar Flow rate of[Methane] in S32: 17.971284196526614
+Molar Flow rate of[Benzene] in S32: 0.0
+Molar Flow rate of[Cyclohexane] in S32: 0.7480737930130748
+Molar Flow rate of[Cyclohexene] in S32: 1.1014319310243632
+Molar Flow rate of[Cyclohexylbenzene] in S32: 0.009630565455651198
+Molar Flow rate of[Hydrogen] in S33: 0.0
+Molar Flow rate of[Methane] in S33: 1.0274430166127359e-08
 Molar Flow rate of[Benzene] in S33: 0.0
 Molar Flow rate of[Cyclohexane] in S33: 0.0
-Molar Flow rate of[Cyclohexene] in S33: 0.04427888393908904
-Molar Flow rate of[Cyclohexylbenzene] in S33: 1.8206211969599484
-Molar Flow rate of[Hydrogen] in S34: 5873.167410773883
-Molar Flow rate of[Methane] in S34: 33.022853010763065
-Molar Flow rate of[Benzene] in S34: 7.36956068928619e-12
-Molar Flow rate of[Cyclohexane] in S34: 1.5229439595707122
-Molar Flow rate of[Cyclohexene] in S34: 0.11069720984772259
-Molar Flow rate of[Cyclohexylbenzene] in S34: 3.1059194923278263e-08
+Molar Flow rate of[Cyclohexene] in S33: 0.011125575060852192
+Molar Flow rate of[Cyclohexylbenzene] in S33: 0.9534259802804289
+Molar Flow rate of[Hydrogen] in S34: 2965.303656796667
+Molar Flow rate of[Methane] in S34: 17.971284205985246
+Molar Flow rate of[Benzene] in S34: 2.7440103164574303e-14
+Molar Flow rate of[Cyclohexane] in S34: 0.7405930550517993
+Molar Flow rate of[Cyclohexene] in S34: 0.01112557506085216
+Molar Flow rate of[Cyclohexylbenzene] in S34: 3.1160671951951644e-08
 Molar Flow rate of[Hydrogen] in S35: 0.0
 Molar Flow rate of[Methane] in S35: 0.0
 Molar Flow rate of[Benzene] in S35: 0.0
-Molar Flow rate of[Cyclohexane] in S35: 0.03108048907179941
-Molar Flow rate of[Cyclohexene] in S35: 2.058968103167638
-Molar Flow rate of[Cyclohexylbenzene] in S35: 0.00035271832110064696
-Molar Flow rate of[Hydrogen] in S36: 5873.167410773882
-Molar Flow rate of[Methane] in S36: 33.02285299835211
-Molar Flow rate of[Benzene] in S36: 9.048945462044704e-12
-Molar Flow rate of[Cyclohexane] in S36: 0.07614719797853568
+Molar Flow rate of[Cyclohexane] in S35: 0.007480737945472919
+Molar Flow rate of[Cyclohexene] in S35: 1.0903063559635109
+Molar Flow rate of[Cyclohexylbenzene] in S35: 0.0001481801777302844
+Molar Flow rate of[Hydrogen] in S36: 2965.303656796666
+Molar Flow rate of[Methane] in S36: 17.97128419516536
+Molar Flow rate of[Benzene] in S36: 0.0
+Molar Flow rate of[Cyclohexane] in S36: 0.0074059305505180025
 Molar Flow rate of[Cyclohexene] in S36: 0.0
 Molar Flow rate of[Cyclohexylbenzene] in S36: 0.0
-Molar Flow rate of[Hydrogen] in S37: 4.4611035433931044e-13
-Molar Flow rate of[Methane] in S37: 1.0840167071370086e-08
-Molar Flow rate of[Benzene] in S37: 0.0
-Molar Flow rate of[Cyclohexane] in S37: 1.4467967615921764
-Molar Flow rate of[Cyclohexene] in S37: 0.11069721982829836
-Molar Flow rate of[Cyclohexylbenzene] in S37: 3.693119212133402e-08
-Molar Flow rate of[Hydrogen] in S38: 245694.17001737352
-Molar Flow rate of[Methane] in S38: 34.471223743552294
+Molar Flow rate of[Hydrogen] in S37: 1.1336656641628546e-12
+Molar Flow rate of[Methane] in S37: 1.0279433077288249e-08
+Molar Flow rate of[Benzene] in S37: 2.0753700232340012e-13
+Molar Flow rate of[Cyclohexane] in S37: 0.7331871245012812
+Molar Flow rate of[Cyclohexene] in S37: 0.01112558505956433
+Molar Flow rate of[Cyclohexylbenzene] in S37: 3.698310133434422e-08
+Molar Flow rate of[Hydrogen] in S38: 247602.85534252084
+Molar Flow rate of[Methane] in S38: 18.122557630802326
 Molar Flow rate of[Benzene] in S38: 0.0
-Molar Flow rate of[Cyclohexane] in S38: 0.07614719037292399
+Molar Flow rate of[Cyclohexane] in S38: 0.007405922339467818
 Molar Flow rate of[Cyclohexene] in S38: 0.0
 Molar Flow rate of[Cyclohexylbenzene] in S38: 0.0
 
 Stream Table:
         Hydrogen  Methane  Benzene  Cyclohexane  Cyclohexene  Cyclohexylbenzene
-s19       0.0000  32.6463   0.2896       0.0000       0.0000             0.0000
-s20       0.0000   0.2897   5.5017       0.0000       0.0000             0.0000
-s21   47967.7546   0.0000   0.0000       0.0000       0.0000             0.0000
-s24  293658.3705  34.7609   1.9476       1.5229       2.1073             0.0000
-s25  287785.2031   1.7380   0.0000       0.0000       0.0000             0.0000
-s26  239821.0026   1.4484   0.0000       0.0000       0.0000             0.0000
-s27   47964.2005   0.2897   0.0000       0.0000       0.0000             0.0000
-s29    5873.1674  33.0229   1.9476       1.5229       2.1039             0.0000
-s30    5873.1674  33.0229   1.9476       1.5540       4.1615             0.0002
-s31    5873.1674  33.0229   0.0000       1.5540       2.2139             1.9164
-s32    5873.1674  33.0229   0.0000       1.5540       2.1697             0.0958
-s33       0.0000   0.0000   0.0000       0.0000       0.0443             1.8206
-s34    5873.1674  33.0229   0.0000       1.5229       0.1107             0.0000
-s35       0.0000   0.0000   0.0000       0.0311       2.0590             0.0004
-s36    5873.1674  33.0229   0.0000       0.0761       0.0000             0.0000
-s37       0.0000   0.0000   0.0000       1.4468       0.1107             0.0000
-s38  245694.1700  34.4712   0.0000       0.0761       0.0000             0.0000
+s19       0.0000  17.8215   0.0279       0.0000       0.0000             0.0000
+s20       0.0000   0.0303   2.7647       0.0000       0.0000             0.0000
+s21   48929.2964   0.0000   0.0000       0.0000       0.0000             0.0000
+s24  296530.3657  18.1528   0.9787       0.7406       1.0528             0.0000
+s25  293565.0620   0.1815   0.0000       0.0000       0.0000             0.0000
+s26  244637.5517   0.1513   0.0000       0.0000       0.0000             0.0000
+s27   48927.5103   0.0303   0.0000       0.0000       0.0000             0.0000
+s29    2965.3037  17.9713   0.9787       0.7406       1.0015             0.0000
+s30    2965.3037  17.9713   0.9787       0.7481       2.0913             0.0001
+s31    2965.3037  17.9713   0.0000       0.7481       1.1126             0.9631
+s32    2965.3037  17.9713   0.0000       0.7481       1.1014             0.0096
+s33       0.0000   0.0000   0.0000       0.0000       0.0111             0.9534
+s34    2965.3037  17.9713   0.0000       0.7406       0.0111             0.0000
+s35       0.0000   0.0000   0.0000       0.0075       1.0903             0.0001
+s36    2965.3037  17.9713   0.0000       0.0074       0.0000             0.0000
+s37       0.0000   0.0000   0.0000       0.7332       0.0111             0.0000
+s38  247602.8553  18.1226   0.0000       0.0074       0.0000             0.0000
