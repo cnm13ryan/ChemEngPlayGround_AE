@@ -1,96 +1,98 @@
 Results:
 
 Stream S Results:
-S8: S8
-S9: 308.1607
-S10: 1837.1928400193258
-S11: 1646.8108684349297
-S12: 190.38197156123962
-S13: 1372.3423903799358
-S14: 274.4684780531753
-S15: 39.1038065897239
-S16: 151.27816495085335
-S17: 0.1181394905155874
-S18: 151.16002549294555
+S8: 256
+zeta_2: 156.80262471631764
+S9: 316.4036
+X: 0.9737063396607469
+S10: 2546.4654306103157
+S11: 2368.840334861139
+S12: 177.62509583132245
+S13: 1974.0336123874074
+S14: 394.80672246341965
+S15: 20.794252908489526
+S16: 156.83084290962495
+S17: 0.02821822290826044
+S18: 156.80262472089117
 
 Component Flow Rate Results:
-Molar Flow rate of[Diphenyl] in S8: 0.0*S8
+Molar Flow rate of[Diphenyl] in S8: 0.0
 Molar Flow rate of[Diphenyl] in S9: 0.0
-Molar Flow rate of[ParaXylene] in S8: 0.0*S8
+Molar Flow rate of[ParaXylene] in S8: 0.0
 Molar Flow rate of[ParaXylene] in S9: 0.0
-Molar Flow rate of[Toluene] in S8: 0.0*S8
-Molar Flow rate of[Toluene] in S9: 305.38725370000003
-Molar Flow rate of[Benzene] in S8: 0.0*S8
-Molar Flow rate of[Benzene] in S9: 2.7734463
-Molar Flow rate of[Methane] in S8: 0.0*S8
+Molar Flow rate of[Toluene] in S8: 0.0
+Molar Flow rate of[Toluene] in S9: 315.01142416
+Molar Flow rate of[Benzene] in S8: 0.0
+Molar Flow rate of[Benzene] in S9: 1.39217584
+Molar Flow rate of[Methane] in S8: 0.0
 Molar Flow rate of[Methane] in S9: 0.0
-Molar Flow rate of[Hydrogen] in S8: S8
+Molar Flow rate of[Hydrogen] in S8: 256
 Molar Flow rate of[Hydrogen] in S9: 0.0
-Molar Flow rate of[Hydrogen] in S10: 14.06629173296306
-Molar Flow rate of[Methane] in S10: 1665.7486565404095
-Molar Flow rate of[Benzene] in S10: 6.217866246099794
-Molar Flow rate of[Toluene] in S10: 0.0
-Molar Flow rate of[ParaXylene] in S10: 1.0175274504541144e-08
-Molar Flow rate of[Diphenyl] in S10: 151.16002549093082
-Molar Flow rate of[Hydrogen] in S11: 14.06629173615168
-Molar Flow rate of[Methane] in S11: 1632.4336834096014
-Molar Flow rate of[Benzene] in S11: 0.31089331230499
-Molar Flow rate of[Toluene] in S11: 0.0
+Molar Flow rate of[Hydrogen] in S10: 586.7472029980564
+Molar Flow rate of[Methane] in S10: 1800.065281376501
+Molar Flow rate of[Benzene] in S10: 2.850321501214126
+Molar Flow rate of[Toluene] in S10: 5.9992687961890955e-09
+Molar Flow rate of[ParaXylene] in S10: 2.873948939183248e-09
+Molar Flow rate of[Diphenyl] in S10: 156.802624725671
+Molar Flow rate of[Hydrogen] in S11: 586.7472030012451
+Molar Flow rate of[Methane] in S11: 1782.0646285627358
+Molar Flow rate of[Benzene] in S11: 0.028503215012141283
+Molar Flow rate of[Toluene] in S11: 8.829495919215672e-08
 Molar Flow rate of[ParaXylene] in S11: 0.0
 Molar Flow rate of[Diphenyl] in S11: 0.0
 Molar Flow rate of[Hydrogen] in S12: 0.0
-Molar Flow rate of[Methane] in S12: 33.314973130808184
-Molar Flow rate of[Benzene] in S12: 5.906972933794805
-Molar Flow rate of[Toluene] in S12: 0.0
-Molar Flow rate of[ParaXylene] in S12: 1.014706811461818e-08
-Molar Flow rate of[Diphenyl] in S12: 151.16002549093082
-Molar Flow rate of[Hydrogen] in S13: 11.7219097801264
-Molar Flow rate of[Methane] in S13: 1360.3614028413344
-Molar Flow rate of[Benzene] in S13: 0.25907776025415835
-Molar Flow rate of[Toluene] in S13: 0.0
-Molar Flow rate of[ParaXylene] in S13: 1.1361895401558259e-08
+Molar Flow rate of[Methane] in S12: 18.000652813765058
+Molar Flow rate of[Benzene] in S12: 2.8218182862019843
+Molar Flow rate of[Toluene] in S12: 5.999229326246868e-09
+Molar Flow rate of[ParaXylene] in S12: 2.873889691080496e-09
+Molar Flow rate of[Diphenyl] in S12: 156.802624725671
+Molar Flow rate of[Hydrogen] in S13: 488.9560025010376
+Molar Flow rate of[Methane] in S13: 1485.0538571356133
+Molar Flow rate of[Benzene] in S13: 0.023752679176784402
+Molar Flow rate of[Toluene] in S13: 7.191784103267356e-08
+Molar Flow rate of[ParaXylene] in S13: 2.85980877076243e-09
 Molar Flow rate of[Diphenyl] in S13: 0.0
-Molar Flow rate of[Hydrogen] in S14: 2.34438195602528
-Molar Flow rate of[Methane] in S14: 272.0722805682669
-Molar Flow rate of[Benzene] in S14: 0.051815552050831666
-Molar Flow rate of[Toluene] in S14: 0.0
+Molar Flow rate of[Hydrogen] in S14: 97.79120050020751
+Molar Flow rate of[Methane] in S14: 297.0107714271226
+Molar Flow rate of[Benzene] in S14: 0.004750535835356881
+Molar Flow rate of[Toluene] in S14: 6.38263647691828e-09
 Molar Flow rate of[ParaXylene] in S14: 0.0
 Molar Flow rate of[Diphenyl] in S14: 0.0
 Molar Flow rate of[Hydrogen] in S15: 0.0
-Molar Flow rate of[Methane] in S15: 33.314973130808184
-Molar Flow rate of[Benzene] in S15: 5.788833475118908
-Molar Flow rate of[Toluene] in S15: 0.0
+Molar Flow rate of[Methane] in S15: 18.000652813765058
+Molar Flow rate of[Benzene] in S15: 2.7936001033399647
+Molar Flow rate of[Toluene] in S15: 3.59389460922382e-11
 Molar Flow rate of[ParaXylene] in S15: 0.0
 Molar Flow rate of[Diphenyl] in S15: 0.0
 Molar Flow rate of[Hydrogen] in S16: 0.0
 Molar Flow rate of[Methane] in S16: 0.0
-Molar Flow rate of[Benzene] in S16: 0.1181394586758961
-Molar Flow rate of[Toluene] in S16: 0.0
-Molar Flow rate of[ParaXylene] in S16: 1.0118861695446545e-08
-Molar Flow rate of[Diphenyl] in S16: 151.16002549093082
-Molar Flow rate of[Hydrogen] in S17: 1.2602623171194019e-08
-Molar Flow rate of[Methane] in S17: 8.949879690661156e-09
-Molar Flow rate of[Benzene] in S17: 0.11813945867589608
-Molar Flow rate of[Toluene] in S17: 0.0
-Molar Flow rate of[ParaXylene] in S17: 0.0
-Molar Flow rate of[Diphenyl] in S17: 1.2647771663335797e-08
+Molar Flow rate of[Benzene] in S16: 0.028218182862019797
+Molar Flow rate of[Toluene] in S16: 5.951405348741708e-09
+Molar Flow rate of[ParaXylene] in S16: 2.8738208557658192e-09
+Molar Flow rate of[Diphenyl] in S16: 156.802624725671
+Molar Flow rate of[Hydrogen] in S17: 1.2511777119526682e-08
+Molar Flow rate of[Methane] in S17: 9.077071529643826e-09
+Molar Flow rate of[Benzene] in S17: 0.028218182862019797
+Molar Flow rate of[Toluene] in S17: 5.892055220154214e-09
+Molar Flow rate of[ParaXylene] in S17: 1.4189789815278064e-11
+Molar Flow rate of[Diphenyl] in S17: 1.2551158298650657e-08
 Molar Flow rate of[Hydrogen] in S18: 0.0
 Molar Flow rate of[Methane] in S18: 0.0
-Molar Flow rate of[Benzene] in S18: 9.318361277383907e-15
-Molar Flow rate of[Toluene] in S18: 0.0
-Molar Flow rate of[ParaXylene] in S18: 9.641134825624097e-09
-Molar Flow rate of[Diphenyl] in S18: 151.16002549093082
+Molar Flow rate of[Benzene] in S18: 7.327995581347268e-19
+Molar Flow rate of[Toluene] in S18: 5.943256652305164e-11
+Molar Flow rate of[ParaXylene] in S18: 2.8451211531931067e-09
+Molar Flow rate of[Diphenyl] in S18: 156.802624725671
 
 Stream Table:
      Hydrogen    Methane   Benzene     Toluene  ParaXylene  Diphenyl
-s8   156.5716     0.0000  0.000000    0.000000         0.0      0.00
-s9     0.0000     0.0000  2.773446  305.387254         0.0      0.00
-s10   14.0663  1665.7487  6.217900    0.000000         0.0    151.16
-s11   14.0663  1632.4337  0.310900    0.000000         0.0      0.00
-s12    0.0000    33.3150  5.907000    0.000000         0.0    151.16
-s13   11.7219  1360.3614  0.259100    0.000000         0.0      0.00
-s14    2.3444   272.0723  0.051800    0.000000         0.0      0.00
-s15    0.0000    33.3150  5.788800    0.000000         0.0      0.00
-s16    0.0000     0.0000  0.118100    0.000000         0.0    151.16
-s17    0.0000     0.0000  0.118100    0.000000         0.0      0.00
-s18    0.0000     0.0000  0.000000    0.000000         0.0    151.16
+s8   256.0000     0.0000  0.000000    0.000000         0.0    0.0000
+s9     0.0000     0.0000  1.392176  315.011424         0.0    0.0000
+s10  586.7472  1800.0653  2.850300    0.000000         0.0  156.8026
+s11  586.7472  1782.0646  0.028500    0.000000         0.0    0.0000
+s12    0.0000    18.0007  2.821800    0.000000         0.0  156.8026
+s13  488.9560  1485.0539  0.023800    0.000000         0.0    0.0000
+s14   97.7912   297.0108  0.004800    0.000000         0.0    0.0000
+s15    0.0000    18.0007  2.793600    0.000000         0.0    0.0000
+s16    0.0000     0.0000  0.028200    0.000000         0.0  156.8026
+s17    0.0000     0.0000  0.028200    0.000000         0.0    0.0000
+s18    0.0000     0.0000  0.000000    0.000000         0.0  156.8026

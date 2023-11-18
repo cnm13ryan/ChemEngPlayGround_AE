@@ -3,7 +3,7 @@ from math import log
 from functools import partial
 
 class Constraints:
-    components = ["Benzene", "Toluene", "OrthoXylene", "MetaXylene", "Ethylbenzene", "ParaXylene", "TwoMethylbutane"]
+    components = ["Benzene", "Toluene", "OrthoXylene", "MetaXylene", "ParaXylene"]
     
     def __init__(self, model, parameters=None):
         self.model = model
@@ -15,7 +15,7 @@ class Constraints:
         # Check and delete existing components before redefining
         if hasattr(model, 'streams'):
             model.del_component(model.streams)
-        model.streams = RangeSet(2, 8)
+        model.streams = RangeSet(2, 11)
         
         model.composition_sum_constraint = Constraint(model.streams, rule=self.composition_sum_rule)
         
@@ -38,7 +38,11 @@ class Constraints:
             'Eq9': self.Eq9,
             'Eq10': self.Eq10,
             'Eq11': self.Eq11,
-            'Eq12': self.Eq12
+            'Eq12': self.Eq12,
+            'Eq13': self.Eq13,
+            'Eq14': self.Eq14,
+            'Eq15': self.Eq15,
+            'Eq16': self.Eq16           
         }
 
         for component in self.components:
@@ -66,6 +70,8 @@ class Constraints:
     
     
     # Fractional Recovery Equations   
+    
+    # D1
     def Eq1(self, model):
         return model.params['FR_S2_LK'] * model.params['S1'] * model.params['S1_Benzene'] == model.s2['Benzene']
     
@@ -78,6 +84,7 @@ class Constraints:
     def Eq4(self, model):
         return (1 - model.params['FR_S3_HK']) * model.params['S1'] * model.params['S1_Toluene'] == model.s2['Toluene']
     
+    # D2
     def Eq5(self, model):
         return model.params['FR_S4_LK'] * model.s3['Toluene'] == model.s4['Toluene']
     
@@ -85,22 +92,37 @@ class Constraints:
         return (1 - model.params['FR_S4_LK']) * model.s3['Toluene'] == model.s5['Toluene']
     
     def Eq7(self, model):
-        return model.params['FR_S5_HK'] * model.s3['Ethylbenzene'] == model.s5['Ethylbenzene']
+        return model.params['FR_S5_HK'] * model.s3['ParaXylene'] == model.s5['ParaXylene']
     
     def Eq8(self, model):
-        return (1 - model.params['FR_S5_HK']) * model.s3['Ethylbenzene'] == model.s4['Ethylbenzene']
+        return (1 - model.params['FR_S5_HK']) * model.s3['ParaXylene'] == model.s4['ParaXylene']
     
+    # D3
     def Eq9(self, model):
-        return model.params['FR_S6_LK'] * model.s5['Ethylbenzene'] == model.s6['Ethylbenzene']
+        return model.params['FR_S6_LK'] * model.s5['Toluene'] == model.s6['Toluene']
     
     def Eq10(self, model):
-        return (1 - model.params['FR_S6_LK']) * model.s5['Ethylbenzene'] == model.s7['Ethylbenzene']
+        return (1 - model.params['FR_S6_LK']) * model.s5['Toluene'] == model.s7['Toluene']
     
     def Eq11(self, model):
         return model.params['FR_S7_HK'] * model.s5['ParaXylene'] == model.s7['ParaXylene'] 
     
     def Eq12(self, model):
         return (1 - model.params['FR_S7_HK']) * model.s5['ParaXylene'] ==  model.s6['ParaXylene']
+    
+    # D4
+    def Eq13(self, model):
+        return model.params['FR_S9_LK'] * model.s8['Toluene'] == model.s9['Toluene']
+    
+    def Eq14(self, model):
+        return (1 - model.params['FR_S9_LK']) * model.s8['Toluene'] == model.s10['Toluene']
+    
+    def Eq15(self, model):
+        return model.params['FR_S10_HK'] * model.s8['ParaXylene'] == model.s10['ParaXylene'] 
+    
+    def Eq16(self, model):
+        return (1 - model.params['FR_S10_HK']) * model.s8['ParaXylene'] ==  model.s9['ParaXylene']
+
 
 
     
@@ -109,16 +131,19 @@ class Constraints:
         return model.params['S1'] * model.params['S1_Benzene'] ==  model.s2['Benzene'] + model.s3['Benzene']
 
     def Benzene_comp_rule2(self, model):
-        return model.s3['Benzene'] ==  model.s4['Benzene']
+        return model.s3['Benzene'] ==  model.s4['Benzene'] + model.s5['Benzene']
     
     def Benzene_comp_rule3(self, model):
-        return model.s5['Benzene'] == 0
+        return model.s5['Benzene'] == model.s6['Benzene'] + model.s7['Benzene']
     
     def Benzene_comp_rule4(self, model):
-        return model.s6['Benzene'] == 0
+        return model.s8['Benzene']  == model.s4['Benzene'] + model.s6['Benzene']
     
     def Benzene_comp_rule5(self, model):
-        return model.s7['Benzene'] == 0
+        return model.s8['Benzene']  == model.s9['Benzene'] + model.s10['Benzene']
+    
+    def Benzene_comp_rule6(self, model):
+        return model.s5['Benzene'] + model.s6['Benzene'] + model.s7['Benzene'] + model.s10['Benzene'] == 0
     
     
     # Toluene (Individual Component material balance)
@@ -129,97 +154,70 @@ class Constraints:
         return model.s3['Toluene'] ==  model.s4['Toluene']  + model.s5['Toluene']
     
     def Toluene_comp_rule3(self, model):
-        return model.s5['Toluene'] ==  model.s6['Toluene']
+        return model.s5['Toluene'] == model.s6['Toluene'] + model.s7['Toluene']
 
     def Toluene_zero_rule4(self, model):
-        return model.s7['Toluene'] == 0
-
+        return model.s8['Toluene'] == model.s4['Toluene'] + model.s6['Toluene']
+    
+    def Toluene_zero_rule5(self, model):
+        return model.s8['Toluene'] == model.s9['Toluene'] + model.s10['Toluene']
+    
     
     # Ortho-Xylene (Individual Component material balance)
     def OrthoXylene_comp_rule1(self, model):
-        return model.params['S1'] * model.params['S1_OrthoXylene'] == model.s3['OrthoXylene']
+        return model.params['S1'] * model.params['S1_OrthoXylene'] == model.s3['OrthoXylene'] + model.s2['OrthoXylene']
     
     def OrthoXylene_comp_rule2(self, model):
-        return model.s2['OrthoXylene'] == 0
+        return model.s2['OrthoXylene'] + model.s4['OrthoXylene'] + model.s6['OrthoXylene'] + model.s8['OrthoXylene'] + model.s9['OrthoXylene'] + model.s10['OrthoXylene']== 0
     
     def OrthoXylene_comp_rule3(self, model):
-        return model.s3['OrthoXylene'] == model.s5['OrthoXylene']
-    
+        return model.s3['OrthoXylene'] == model.s4['OrthoXylene'] + model.s5['OrthoXylene']
+
     def OrthoXylene_comp_rule4(self, model):
-        return model.s4['OrthoXylene'] == 0
-
+        return model.s5['OrthoXylene'] == model.s6['OrthoXylene'] + model.s7['OrthoXylene']
+    
     def OrthoXylene_comp_rule5(self, model):
-        return model.s5['OrthoXylene'] == model.s7['OrthoXylene']
-
+        return model.s8['OrthoXylene'] == model.s4['OrthoXylene'] + model.s6['OrthoXylene']
+    
     def OrthoXylene_comp_rule6(self, model):
-        return model.s6['OrthoXylene'] == 0
-
+        return model.s8['OrthoXylene'] == model.s9['OrthoXylene'] + model.s10['OrthoXylene']
     
-    # Ethylbenzene (Individual Component material balance)
-    def Ethylbenzene_comp_rule1(self, model):
-        return model.params['S1'] * model.params['S1_Ethylbenzene'] == model.s3['Ethylbenzene']
-    
-    def Ethylbenzene_comp_rule2(self, model):
-        return model.s3['Ethylbenzene']  == model.s4['Ethylbenzene'] + model.s5['Ethylbenzene']
-
-    def Ethylbenzene_comp_rule3(self, model):
-        return model.s5['Ethylbenzene']  == model.s6['Ethylbenzene']+ model.s7['Ethylbenzene']
-
-    def Ethylbenzene_comp_rule4(self, model):
-        return model.s2['Ethylbenzene'] == 0
-
     
     # MetaXylene (Individual Component material balance)
     def MetaXylene_comp_rule1(self, model):
-        return model.params['S1'] * model.params['S1_MetaXylene'] == model.s3['MetaXylene']
+        return model.params['S1'] * model.params['S1_MetaXylene'] == model.s3['MetaXylene'] + model.s2['MetaXylene']
     
     def MetaXylene_comp_rule2(self, model):
-        return model.s2['MetaXylene'] == 0
+        return model.s2['MetaXylene'] + model.s4['MetaXylene'] + model.s6['MetaXylene'] + model.s8['MetaXylene'] + model.s9['MetaXylene'] + model.s10['MetaXylene']== 0
     
     def MetaXylene_comp_rule3(self, model):
-        return model.s3['MetaXylene'] == model.s5['MetaXylene']
-    
+        return model.s3['MetaXylene'] == model.s5['MetaXylene'] + model.s4['MetaXylene']
+
     def MetaXylene_comp_rule4(self, model):
-        return model.s4['MetaXylene'] == 0
-
+        return model.s5['MetaXylene'] == model.s7['MetaXylene'] + model.s6['MetaXylene']
+    
     def MetaXylene_comp_rule5(self, model):
-        return model.s5['MetaXylene'] == model.s7['MetaXylene']
-
+        return model.s8['MetaXylene'] == model.s4['MetaXylene'] + model.s6['MetaXylene']
+    
     def MetaXylene_comp_rule6(self, model):
-        return model.s6['MetaXylene'] == 0
+        return model.s8['MetaXylene'] == model.s9['MetaXylene'] + model.s10['MetaXylene']
 
+    
     # ParaXylene (Individual Component material balance)
     def ParaXylene_comp_rule1(self, model):
-        return model.params['S1'] * model.params['S1_ParaXylene'] == model.s3['ParaXylene']
+        return model.params['S1'] * model.params['S1_ParaXylene'] == model.s3['ParaXylene'] + model.s2['ParaXylene']
     
     def ParaXylene_comp_rule2(self, model):
         return model.s2['ParaXylene'] == 0
     
     def ParaXylene_comp_rule3(self, model):
-        return model.s3['ParaXylene']  ==  model.s5['ParaXylene']
-    
-    def ParaXylene_comp_rule4(self, model):
-        return model.s4['ParaXylene'] == 0
+        return model.s3['ParaXylene']  ==  model.s4['ParaXylene'] + model.s5['ParaXylene']
 
+    def ParaXylene_comp_rule4(self, model):
+        return model.s8['ParaXylene']  == model.s4['ParaXylene'] + model.s6['ParaXylene']
+    
     def ParaXylene_comp_rule5(self, model):
         return model.s5['ParaXylene']  == model.s6['ParaXylene'] + model.s7['ParaXylene']
-
-
-    # TwoMethylbutane (Individual Component material balance)
-    def TwoMethylbutane_comp_rule1(self, model):
-        return model.s2['TwoMethylbutane'] == 0
     
-    def TwoMethylbutane_comp_rule1(self, model):
-        return model.s3['TwoMethylbutane'] == 0
-
-    def TwoMethylbutane_comp_rule2(self, model):
-        return model.s4['TwoMethylbutane'] == 0
-        
-    def TwoMethylbutane_comp_rule3(self, model):
-        return model.s5['TwoMethylbutane'] == 0
-
-    def TwoMethylbutane_comp_rule4(self, model):
-        return model.s6['TwoMethylbutane'] == 0
-
-    def TwoMethylbutane_comp_rule5(self, model):
-        return model.s7['TwoMethylbutane'] == 0
+    def ParaXylene_comp_rule6(self, model):
+        return model.s8['ParaXylene']  == model.s9['ParaXylene'] + model.s10['ParaXylene']    

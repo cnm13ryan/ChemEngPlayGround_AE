@@ -24,7 +24,7 @@ if __name__ == "__main__":
         
 #     chemical_model.identify_redundant_constraints_sensitivity()
 #     chemical_model.identify_redundant_constraints_deactivation()        
-
+    #chemical_model.solve_with_tearing()
     chemical_model.solve()
     chemical_model.display_results()
     chemical_model.generate_stream_table()

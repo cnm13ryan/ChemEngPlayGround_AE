@@ -11,7 +11,7 @@ class Variables:
 
         for i in model.streams:
             # Overall Stream molar flow rates
-            setattr(model, f'S{i}', Var(within=NonNegativeReals, initialize=1000))
+            setattr(model, f'S{i}', Var(within=NonNegativeReals, initialize=200))
 
             # Individual component stream flow rates
             setattr(model, f's{i}', Var(components, within=NonNegativeReals, initialize=10.0))
@@ -27,6 +27,6 @@ class Variables:
         model.S = Var(within=NonNegativeReals)
         
         # Conversion of Toluene
-        model.X = Var(within=NonNegativeReals, bounds=[0, 1], initialize=0.5)
+        model.X = Var(within=NonNegativeReals, bounds=[0, 1], initialize=0.4)
         
-        model.S8 = Var(within=NonNegativeReals, initialize=1000)
+#         model.S8 = Var(within=NonNegativeReals, initialize=200)
